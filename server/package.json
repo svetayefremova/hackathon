@@ -1,0 +1,31 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "node ./build/main.js",
+    "dev": "backpack",
+    "build": "backpack build",
+    "lint": "prettier --write 'src/**/*.{ts,tsx}' && tslint --fix --project tsconfig.json",
+    "database": "/Users/yes/Projects/Database/mongodb/bin/mongod --dbpath /Users/yes/Projects/Database/db/"
+  },
+  "author": "Svitlana Yefremova <yefremovasveta@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-express": "^2.9.6",
+    "awesome-typescript-loader": "^5.2.1",
+    "backpack-core": "^0.8.4",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "graphql-passport": "^0.5.0",
+    "moment": "^2.24.0",
+    "mongoose": "^5.7.5",
+    "passport": "^0.4.0"
+  },
+  "devDependencies": {
+    "prettier": "^1.19.1",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.7.2"
+  }
+}
