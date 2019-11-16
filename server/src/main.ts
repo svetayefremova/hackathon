@@ -1,28 +1,43 @@
-import { ApolloServer } from "apollo-server-express";
+import {ApolloServer} from "apollo-server-express";
+import cors from "cors";
 import express from "express";
+import {buildContext} from "graphql-passport";
 import Mongoose from "mongoose";
 
+import auth from "./middlewares/auth";
+import User from "./models/UserModel";
 import resolvers from "./resolvers";
 import typeDefs from "./schema";
 import seed from "./seed";
 
-const server = new ApolloServer({typeDefs, resolvers});
-
 const app = express();
 const PORT = 8080;
-
-server.applyMiddleware({app});
 
 Mongoose.Promise = global.Promise;
 Mongoose.connect(
   "mongodb://localhost/vanhack-bonsai",
-  {useUnifiedTopology: true, useNewUrlParser: true},
+  {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true},
   err => {
     if (err) {
       return err;
     }
   },
 );
+
+app.use(cors());
+app.use(auth);
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({req, res}) => buildContext({req, res, User}),
+  playground: {
+    settings: {
+      "request.credentials": "same-origin",
+    },
+  },
+});
+server.applyMiddleware({app});
 
 seed();
 

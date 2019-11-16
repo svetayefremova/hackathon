@@ -83,7 +83,7 @@ const ProductsList = () => {
       </SafeAreaView>
     );
   } else {
-    console.error(error);
+    // console.error(error);
   }
 };
 

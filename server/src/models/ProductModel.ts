@@ -27,4 +27,6 @@ const product: Schema = new Schema({
   merchant: {type: Schema.Types.ObjectId, ref: "Merchant"},
 });
 
+product.set("toObject", {getters: true, virtuals: true});
+
 export default mongoose.model<IProduct>("Product", product);

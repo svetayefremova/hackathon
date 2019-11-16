@@ -19,7 +19,7 @@ export interface IMerchant extends Document {
   companyDescription: string;
 }
 
-const merchant = new Schema({
+const merchant: Schema = new Schema({
   index: Number,
   guid: String,
   logo: String,
@@ -37,5 +37,7 @@ const merchant = new Schema({
   },
   companyDescription: String,
 });
+
+merchant.set("toObject", {getters: true, virtuals: true});
 
 export default mongoose.model<IMerchant>("Merchant", merchant);

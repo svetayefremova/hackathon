@@ -29,13 +29,43 @@ const typeDefs = gql`
     quantity: Int
     image: String
   }
-  type User {
-    userId: String
+  enum UserRole {
+    admin
+    user
   }
+  type User {
+    id: ID!
+    email: String!
+    username: String!
+    password: String!
+    role: UserRole
+    createdAt: Int
+    updatedAt: Int
+  }
+
+  # the schema allows the following query:
   type Query {
+    currentUser: User
+    users: [User]
+    userById(id: ID!): User
     products: [Product!]
   }
+
+  # the schema allows the following mutation:
+  input LoginInput {
+    email: String!
+    password: String!
+  }
+  input SigninInput {
+    email: String!
+    password: String!
+    username: String!
+    role: String!
+  }
   type Mutation {
+    signin(input: SigninInput): User
+    login(input: LoginInput): User
+    logout: Boolean
     editMerchant(publishedState: Boolean!): Merchant
   }
 `;

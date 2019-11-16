@@ -21,7 +21,10 @@
   },
   "exclude": [
     "node_modules",
-    "android",
-    "ios"
+    "build"
+  ],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
   ]
 }

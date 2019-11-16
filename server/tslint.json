@@ -5,6 +5,7 @@
   "rules": {
     "quotemark": [true, "double"],
     "object-literal-sort-keys": [false],
+    "interface-name": false,
     "trailing-comma": [true, { "esSpecCompliant": true }],
     "semicolon": [true, "always", "ignore-bound-class-methods"],
     "member-ordering": [false],
@@ -16,7 +17,8 @@
         "limit": 80,
         "ignore-pattern": "// |^import |^export |\"(.*?)\"|`(.*?)`"
       }
-    ]
+    ],
+    "no-console": false
   },
   "rulesDirectory": []
 }

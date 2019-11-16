@@ -1,5 +1,5 @@
-import Merchant from "./models/MerchantModel";
 import {merchants} from "./mocks/mockMerchantData";
+import Merchant from "./models/MerchantModel";
 import Product from "./models/ProductModel";
 
 const seed = async () => {
