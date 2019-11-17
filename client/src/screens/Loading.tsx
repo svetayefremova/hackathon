@@ -1,11 +1,11 @@
-import React, {FunctionalComponent, useEffect} from "react";
+import React, {useEffect} from "react";
 import {ActivityIndicator, StyleSheet, View} from "react-native";
 import {Themed} from "react-navigation";
 import {NavigationStackScreenProps} from "react-navigation-stack";
 
 import {useCurrentUserQuery} from "../hooks/queries";
 
-const Loading: FunctionalComponent<NavigationStackScreenProps> = props => {
+const Loading: React.FC<NavigationStackScreenProps> = props => {
   const {data, loading} = useCurrentUserQuery();
 
   const isLoggedIn = data && data.currentUser;

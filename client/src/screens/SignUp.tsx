@@ -1,5 +1,5 @@
 import useForm from "rc-form-hooks";
-import React, {FunctionalComponent, useState} from "react";
+import React, {useState} from "react";
 import {
   Button,
   KeyboardAvoidingView,
@@ -8,6 +8,7 @@ import {
   Text,
   View,
 } from "react-native";
+import {NavigationStackScreenProps} from "react-navigation-stack";
 
 import {Layout, TextField} from "../components";
 import {SignUpInput, useSignUpMutation} from "../hooks/mutations";
@@ -28,11 +29,7 @@ interface SignUpFormProps {
   };
 }
 
-const SignUpForm: FunctionalComponent<SignUpFormProps> = ({
-  onSubmit,
-  disabled,
-  error,
-}) => {
+const SignUpForm: React.FC<SignUpFormProps> = ({onSubmit, disabled, error}) => {
   const [state, setState] = useState({
     confirmDirty: false,
   });
@@ -153,7 +150,7 @@ const SignUpForm: FunctionalComponent<SignUpFormProps> = ({
   );
 };
 
-const SignUp: FunctionalComponent = props => {
+const SignUp: React.FC<NavigationStackScreenProps> = props => {
   const [mutate, loading, error] = useSignUpMutation();
 
   const onSubmit = async (input: SignUpInput) => {

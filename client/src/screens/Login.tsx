@@ -1,5 +1,5 @@
 import useForm from "rc-form-hooks";
-import React, {FunctionalComponent} from "react";
+import React from "react";
 import {
   Button,
   KeyboardAvoidingView,
@@ -9,12 +9,15 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import {AccessToken, LoginButton, LoginManager} from "react-native-fbsdk";
+import {AccessToken, LoginManager} from "react-native-fbsdk";
 import {NavigationStackScreenProps} from "react-navigation-stack";
 import styled from "styled-components";
 
 import {Layout, TextField} from "../components";
-import {useLoginMutation} from "../hooks/mutations";
+import {
+  useLoginMutation,
+  useLoginWithFacebookMutation,
+} from "../hooks/mutations";
 import {colors, fonts} from "../theme";
 
 interface LoginForm {
@@ -30,11 +33,7 @@ interface LoginFormProps {
   };
 }
 
-const LoginForm: FunctionalComponent<LoginFormProps> = ({
-  onLogin,
-  disabled,
-  error,
-}) => {
+const LoginForm: React.FC<LoginFormProps> = ({onLogin, disabled, error}) => {
   const {
     getFieldDecorator,
     validateFields,
@@ -105,13 +104,18 @@ const LoginForm: FunctionalComponent<LoginFormProps> = ({
   );
 };
 
-const Login: FunctionalComponent<NavigationStackScreenProps> = props => {
-  const [mutate, loading, error] = useLoginMutation();
+const Login: React.FC<NavigationStackScreenProps> = props => {
+  const [mutateLogin, loading, error] = useLoginMutation();
+  const [
+    mutateLoginWithFacebook,
+    loginWithFacebookLoading,
+    loginWithFacebookError,
+  ] = useLoginWithFacebookMutation();
 
-  const loginWithCredentials = async ({email, password}: LoginForm) => {
+  const loginWithCredentials = async (values: LoginForm) => {
     const {
       data: {login},
-    } = await mutate(email, password);
+    } = await mutateLogin(values);
 
     if (login) {
       props.navigation.navigate("Home");
@@ -121,17 +125,24 @@ const Login: FunctionalComponent<NavigationStackScreenProps> = props => {
   };
 
   const loginWithFacebook = async () => {
-    const result = await LoginManager.logInWithPermissions(["public_profile"]);
+    const result = await LoginManager.logInWithPermissions([
+      "email",
+      "public_profile",
+    ]);
 
     if (!result) {
       alert("An error occurred, please try again later");
     }
 
-    if (result.isCancelled) {
-      alert("Login was cancelled");
-    } else {
-      const accessToken = await AccessToken.getCurrentAccessToken();
-      console.log("result", result, accessToken);
+    if (!result.isCancelled) {
+      const {accessToken} = await AccessToken.getCurrentAccessToken();
+      const {data} = await mutateLoginWithFacebook(accessToken);
+      console.log(accessToken);
+      if (data && data.loginWithFacebook) {
+        props.navigation.navigate("Home");
+      } else {
+        alert("Ooops... something went wrong...");
+      }
     }
   };
 
@@ -142,10 +153,14 @@ const Login: FunctionalComponent<NavigationStackScreenProps> = props => {
           <View style={styles.loginContainer}>
             <LoginForm
               onLogin={loginWithCredentials}
-              disabled={loading}
-              error={error}
+              disabled={loading || loginWithFacebookLoading}
+              error={error || loginWithFacebookError}
             />
-            <Button title="Login with facebook" onPress={loginWithFacebook} />
+            <Button
+              title="Login with facebook"
+              onPress={loginWithFacebook}
+              disabled={loading || loginWithFacebookLoading}
+            />
             <Text style={styles.separator}>OR</Text>
             <Row>
               <Text style={styles.text}>Don't have an account?</Text>

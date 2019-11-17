@@ -55,7 +55,10 @@ const typeDefs = gql`
   # the schema allows the following mutation:
   input LoginInput {
     email: String!
-    password: String!
+    password: String
+  }
+  input AuthInput {
+    accessToken: String
   }
   input SignupInput {
     email: String!
@@ -66,6 +69,7 @@ const typeDefs = gql`
   type Mutation {
     signup(input: SignupInput): User
     login(input: LoginInput): User
+    loginWithFacebook(input: AuthInput): User
     logout: Boolean
     editMerchant(publishedState: Boolean!): Merchant
   }

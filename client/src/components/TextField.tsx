@@ -1,4 +1,4 @@
-import React, {FunctionalComponent} from "react";
+import React from "react";
 import {StyleSheet, Text, TextInput, View} from "react-native";
 
 import {colors, fonts} from "../theme";
@@ -11,11 +11,7 @@ interface TextField {
   }>;
 }
 
-const TextField: FunctionalComponent<TextField> = ({
-  label,
-  error,
-  ...props
-}) => {
+const TextField: React.FC<TextField> = ({label, error, ...props}) => {
   return (
     <View style={style.inputContainer}>
       <TextInput

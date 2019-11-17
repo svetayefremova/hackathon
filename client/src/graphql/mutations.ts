@@ -6,6 +6,7 @@ export const SIGNUP = gql`
       id
       email
       username
+      facebookId
     }
   }
 `;
@@ -16,6 +17,18 @@ export const LOGIN = gql`
       id
       email
       username
+      facebookId
+    }
+  }
+`;
+
+export const LOGIN_WITH_FACEBOOK = gql`
+  mutation loginWithFacebook($input: AuthInput!) {
+    loginWithFacebook(input: $input) {
+      id
+      email
+      username
+      facebookId
     }
   }
 `;

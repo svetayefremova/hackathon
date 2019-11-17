@@ -50,7 +50,6 @@ const resolvers: IResolvers = {
       });
 
       context.login(user);
-
       return user.toObject();
     },
 
@@ -68,7 +67,19 @@ const resolvers: IResolvers = {
       }
 
       context.login(user);
-      return user;
+      return user.toObject();
+    },
+
+    loginWithFacebook: async (_, {input: {accessToken}}, context) => {
+      context.req.body = {
+        ...context.req.body,
+        access_token: accessToken,
+      };
+
+      const {user} = await context.authenticate("facebook-token");
+
+      context.login(user);
+      return user.toObject();
     },
   },
 };

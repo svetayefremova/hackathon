@@ -1,4 +1,4 @@
-import React, {FunctionalComponent} from "react";
+import React from "react";
 import {SafeAreaView, StyleSheet, View} from "react-native";
 
 interface LayoutProps {
@@ -6,7 +6,7 @@ interface LayoutProps {
   alignItems?: string;
 }
 
-const Layout: FunctionalComponent<LayoutProps> = ({
+const Layout: React.FC<LayoutProps> = ({
   justifyContent,
   alignItems,
   children,

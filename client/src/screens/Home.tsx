@@ -1,11 +1,12 @@
-import React, {FunctionalComponent} from "react";
+import React from "react";
 import {Button, StyleSheet, Text, View} from "react-native";
+import {NavigationStackScreenProps} from "react-navigation-stack";
 
 import {Layout, Products} from "../components";
 import {useLogoutMutation} from "../hooks/mutations";
 import {useCurrentUserQuery} from "../hooks/queries";
 
-const Home: FunctionalComponent = props => {
+const Home: React.FC<NavigationStackScreenProps> = props => {
   const {data, loading} = useCurrentUserQuery();
   const mutate = useLogoutMutation();
 
