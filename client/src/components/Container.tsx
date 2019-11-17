@@ -18,7 +18,9 @@ const Container: React.FC<ContainerProps> = ({
   justify = "flex-start",
 }) => {
   if (center) {
-    return <Center style={[{padding, flexDirection: direction}]}>{children}</Center>
+    return (
+      <Center style={[{padding, flexDirection: direction}]}>{children}</Center>
+    );
   }
   return (
     <StyledContainer

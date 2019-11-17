@@ -21,11 +21,25 @@ export const USER_BY_ID = gql`
 `;
 
 export const USERS = gql`
-  query users($first: Int, $skip: Int) {
-    users(first: $first, skip: $skip) {
+  query users($limit: Int, $offset: Int) {
+    users(limit: $limit, offset: $offset) {
       id
       username
       email
+    }
+  }
+`;
+
+export const PRODUCTS = gql`
+  query products($limit: Int, $offset: Int) {
+    products(limit: $limit, offset: $offset) {
+      id
+      name
+      price
+      description
+      color
+      size
+      image
     }
   }
 `;

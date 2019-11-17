@@ -54,9 +54,9 @@ const typeDefs = gql`
   # the schema allows the following query:
   type Query {
     currentUser: User
-    users: [User]
+    users(offset: Int, limit: Int): [User]
     userById(id: ID!): User
-    products: [Product!]
+    products(offset: Int, limit: Int): [Product]
   }
 
   # the schema allows the following mutation:

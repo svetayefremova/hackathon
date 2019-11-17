@@ -1,9 +1,15 @@
-import {useQuery} from "@apollo/react-hooks";
-import gql from "graphql-tag";
-import React from "react";
-import {FlatList, Image, SafeAreaView, StyleSheet, Text} from "react-native";
-import {Button} from "react-native";
+import React, {useEffect, useState} from "react";
+import {
+  FlatList,
+  ImageBackground,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+} from "react-native";
 import styled from "styled-components";
+
+import {Button, Spinner} from "../components";
+import {useProductsQuery} from "../hooks/queries";
 
 const Container = styled.View`
   width: 90%;
@@ -34,32 +40,24 @@ const styles = StyleSheet.create({
   },
 });
 
-const GET_PRODUCTS = gql`
-  {
-    products {
-      id
-      name
-      price
-      description
-      color
-      size
-      image
-    }
-  }
-`;
-
-const renderItem = ({item}) => {
+const renderItem = ({item, index}) => {
   return (
     <Container>
-      <Image style={{width: 170, height: 250}} source={{uri: item.image}} />
-      <DetailsContainer>
-        <Text style={styles.title}>{item && item.name}</Text>
-        <Text style={styles.text}>Size: {item && item.size}</Text>
-        <Text style={styles.text}>Color: {item && item.color}</Text>
-        <Text style={styles.text}>Price: {item && item.price}</Text>
-        <Text style={styles.text}>Description: {item && item.description}</Text>
-        <Button title="Buy" type="solid" style={{margin: 5}} />
-      </DetailsContainer>
+      <ImageBackground
+        style={{width: 170, height: 250}}
+        source={{uri: item.image}}>
+        <DetailsContainer>
+          <Text>INDEX: {index}</Text>
+          <Text style={styles.title}>{item && item.name}</Text>
+          <Text style={styles.text}>Size: {item && item.size}</Text>
+          <Text style={styles.text}>Color: {item && item.color}</Text>
+          <Text style={styles.text}>Price: {item && item.price}</Text>
+          <Text style={styles.text}>
+            Description: {item && item.description}
+          </Text>
+          <Button title="Buy" type="solid" style={{margin: 5}} />
+        </DetailsContainer>
+      </ImageBackground>
     </Container>
   );
 };
@@ -67,23 +65,46 @@ const renderItem = ({item}) => {
 const keyExtractor = item => item.id;
 
 const ProductsList = () => {
-  const {loading, error, data} = useQuery(GET_PRODUCTS);
-  const {products} = data || {};
+  const {loading, error, data, fetchMore} = useProductsQuery();
+
+  const loadMoreItems = () => {
+    if (data && data.products.length) {
+      fetchMore({
+        variables: {
+          offset: data.products.length,
+        },
+        updateQuery: (prev: any, {fetchMoreResult}) => {
+          if (!fetchMoreResult) { return prev; }
+          return Object.assign({}, prev, {
+            products: [...prev.products, ...fetchMoreResult.products],
+          });
+        },
+      });
+    }
+  };
+
   if (loading) {
-    return <Text> Loading... </Text>;
+    return <Spinner center />;
   }
-  if (data && data.products) {
+  const products = data && data.products;
+
+  if (products) {
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
+          extraData={products}
           data={products}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
+          onEndReachedThreshold={0.9}
+          onEndReached={loadMoreItems}
+          initialNumToRender={10}
+          numColumns={2}
         />
       </SafeAreaView>
     );
   } else {
-    // console.error(error);
+    console.error(error);
   }
 };
 

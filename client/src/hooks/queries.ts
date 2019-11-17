@@ -1,6 +1,6 @@
 import {useQuery} from "@apollo/react-hooks";
 
-import {CURRENT_USER, USER_BY_ID, USERS} from "../graphql/queries";
+import {CURRENT_USER, PRODUCTS, USER_BY_ID, USERS} from "../graphql/queries";
 
 export const useCurrentUserQuery = () => useQuery(CURRENT_USER);
 
@@ -8,5 +8,10 @@ export const useUserByIdQuery = id => useQuery(USER_BY_ID, {variables: {id}});
 
 export const useUsersQuery = () =>
   useQuery(USERS, {
-    variables: {first: 20, skip: 0},
+    variables: {limit: 10, offset: 0},
+  });
+
+export const useProductsQuery = () =>
+  useQuery(PRODUCTS, {
+    variables: {limit: 10, offset: 0},
   });

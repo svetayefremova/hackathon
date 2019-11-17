@@ -14,10 +14,10 @@ const resolvers: IResolvers = {
   Query: {
     currentUser: (_, {}, context) => context.getUser(),
 
-    users: async (_, {first, skip}) => {
+    users: async (_, {limit, offset}) => {
       const users = await User.find()
-        .limit(first)
-        .skip(skip);
+        .limit(limit)
+        .skip(offset);
 
       return users.map(user => user.toObject());
     },
@@ -30,7 +30,13 @@ const resolvers: IResolvers = {
       }
     },
 
-    products: async () => await Product.find({}).limit(10),
+    products: async (_, {limit, offset}) => {
+      const products = await Product.find()
+        .limit(limit)
+        .skip(offset);
+
+      return products.map(product => product.toObject());
+    },
   },
 
   Mutation: {
