@@ -10,20 +10,30 @@ export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
-  facebookId: string;
+  social: {
+    facebookProvider: {
+      id: string;
+      token: string;
+    };
+  };
   role: UserRole;
   createdAt: number;
   updatedAt: number;
 }
 
 const user: Schema = new Schema({
-  username: {type: String, trim: true},
+  username: String,
   email: {type: String, unique: true, required: true},
-  password: {type: String},
-  facebookId: {type: String},
-  role: {type: String},
-  createdAt: {type: Number},
-  updatedAt: {type: Number},
+  password: String,
+  social: {
+    facebookProvider: {
+      id: String,
+      token: String,
+    },
+  },
+  role: String,
+  createdAt: Number,
+  updatedAt: Number,
 });
 
 user.set("toObject", {getters: true, virtuals: true});

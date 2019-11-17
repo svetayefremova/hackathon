@@ -33,13 +33,20 @@ const typeDefs = gql`
     admin
     user
   }
+  type Social {
+    id: String
+    token: String
+  }
+  type SocialProvider {
+    facebookProvider: Social
+  }
   type User {
     id: ID!
     email: String!
-    username: String!
-    password: String!
+    username: String
+    password: String
     role: UserRole
-    facebookId: String
+    social: SocialProvider
     createdAt: Int
     updatedAt: Int
   }

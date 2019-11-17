@@ -14,4 +14,6 @@ export default {
   baseFontColor: "#484D57",
   darkFontColor: "#4f5760",
   lightFontColor: "#fff",
+
+  facebook: "#3b5998",
 };

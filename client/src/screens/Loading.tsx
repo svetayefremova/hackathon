@@ -1,8 +1,9 @@
 import React, {useEffect} from "react";
-import {ActivityIndicator, StyleSheet, View} from "react-native";
+import {ActivityIndicator} from "react-native";
 import {Themed} from "react-navigation";
 import {NavigationStackScreenProps} from "react-navigation-stack";
 
+import {Container} from "../components";
 import {useCurrentUserQuery} from "../hooks/queries";
 
 const Loading: React.FC<NavigationStackScreenProps> = props => {
@@ -22,19 +23,11 @@ const Loading: React.FC<NavigationStackScreenProps> = props => {
   }, [bootstrapAsync, loading]);
 
   return (
-    <View style={styles.container}>
+    <Container center>
       <ActivityIndicator />
       <Themed.StatusBar />
-    </View>
+    </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
-  },
-});
 
 export default Loading;

@@ -1,9 +1,14 @@
+import {ApolloError} from "apollo-server-express";
 import bcrypt from "bcryptjs";
 import {IResolvers} from "graphql-tools";
 import moment from "moment";
 
 import Product from "./models/ProductModel";
 import User, {IUser, UserRole} from "./models/UserModel";
+
+enum ErrorCode {
+  registeredWithSocial = "REGISTERED_WITH_SOCIAL_ERROR",
+}
 
 const resolvers: IResolvers = {
   Query: {
@@ -34,6 +39,13 @@ const resolvers: IResolvers = {
         email: input.email,
       });
 
+      if (user && user.social && user.social.facebookProvider) {
+        throw new ApolloError(
+          "You already have an account using Facebook Login. To avoid creating multiple accounts, login with Facebook",
+          ErrorCode.registeredWithSocial,
+        );
+      }
+
       if (user) {
         throw new Error("User with this email already exists");
       }
@@ -60,9 +72,12 @@ const resolvers: IResolvers = {
         email: input.email,
       });
 
-      const isValid = await bcrypt.compare(input.password, user.password);
+      const isValidPassword = await bcrypt.compare(
+        input.password,
+        user.password,
+      );
 
-      if (!isValid) {
+      if (!isValidPassword) {
         throw new Error("Email and password don't match");
       }
 

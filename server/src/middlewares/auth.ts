@@ -37,16 +37,45 @@ const FacebookTokenStrategyCallback = async (
   profile,
   done,
 ) => {
+  // TODO add logic when user have more than 1 account
+
+  // Check if user with current email registered without social
+  // If yes - Merge Facebook Login with existing user
+  await User.findOneAndUpdate(
+    {
+      email: profile.emails[0].value,
+      social: null,
+    },
+    {
+      $set: {
+        social: {
+          facebookProvider: {
+            id: profile.id,
+            token: accessToken,
+          },
+        },
+        updatedAt: moment.utc().unix(),
+      },
+    },
+  );
+
+  // Check if user is already connected with facebook account
   let registeredUser = await User.findOne({
-    facebookId: profile.id,
+    "social.facebookProvider.id": profile.id,
   });
 
+  // Register new user with social
   if (!registeredUser) {
     registeredUser = await User.create({
       username: profile.displayName,
       email: profile.emails[0].value,
       role: UserRole.user,
-      facebookId: profile.id,
+      social: {
+        facebookProvider: {
+          id: profile.id,
+          token: accessToken,
+        },
+      },
       createdAt: moment.utc().unix(),
       updatedAt: moment.utc().unix(),
     });

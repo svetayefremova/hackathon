@@ -6,7 +6,6 @@ export const SIGNUP = gql`
       id
       email
       username
-      facebookId
     }
   }
 `;
@@ -17,7 +16,6 @@ export const LOGIN = gql`
       id
       email
       username
-      facebookId
     }
   }
 `;
@@ -28,7 +26,6 @@ export const LOGIN_WITH_FACEBOOK = gql`
       id
       email
       username
-      facebookId
     }
   }
 `;

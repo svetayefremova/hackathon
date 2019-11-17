@@ -6,7 +6,6 @@ export const CURRENT_USER = gql`
       id
       username
       email
-      facebookId
     }
   }
 `;
@@ -17,7 +16,6 @@ export const USER_BY_ID = gql`
       id
       username
       email
-      facebookId
     }
   }
 `;
@@ -28,7 +26,6 @@ export const USERS = gql`
       id
       username
       email
-      facebookId
     }
   }
 `;

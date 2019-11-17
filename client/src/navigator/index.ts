@@ -7,6 +7,7 @@ import Home from "../screens/Home";
 import Loading from "../screens/Loading";
 import Login from "../screens/Login";
 import SignUp from "../screens/SignUp";
+import Welcome from "../screens/Welcome";
 
 const AppStack = createStackNavigator({
   Home: {
@@ -21,16 +22,22 @@ const AppStack = createStackNavigator({
   },
 });
 const AuthStack = createStackNavigator({
+  Welcome: {
+    screen: Welcome,
+    navigationOptions: () => ({
+      headerShown: false,
+    }),
+  },
   Login: {
     screen: Login,
     navigationOptions: () => ({
-      headerShown: false,
+      headerTitle: "Login",
     }),
   },
   SignUp: {
     screen: SignUp,
     navigationOptions: () => ({
-      headerTitle: "Registration",
+      headerTitle: "Create account",
     }),
   },
 });

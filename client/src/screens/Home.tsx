@@ -1,8 +1,9 @@
 import React from "react";
-import {Button, StyleSheet, Text, View} from "react-native";
+import {View} from "react-native";
 import {NavigationStackScreenProps} from "react-navigation-stack";
 
-import {Layout, Products} from "../components";
+import {Button, Layout, Text} from "../components";
+import {Products} from "../containers";
 import {useLogoutMutation} from "../hooks/mutations";
 import {useCurrentUserQuery} from "../hooks/queries";
 
@@ -12,7 +13,7 @@ const Home: React.FC<NavigationStackScreenProps> = props => {
 
   const logout = async () => {
     await mutate();
-    props.navigation.navigate("Login");
+    props.navigation.navigate("Welcome");
   };
 
   if (loading) {
@@ -23,7 +24,7 @@ const Home: React.FC<NavigationStackScreenProps> = props => {
   return (
     <Layout>
       {currentUser && (
-        <View style={styles.userContainer}>
+        <View style={{paddingTop: 60}}>
           <Text>{currentUser.username}</Text>
           <Button title="Logout" onPress={logout} />
         </View>
@@ -32,11 +33,5 @@ const Home: React.FC<NavigationStackScreenProps> = props => {
     </Layout>
   );
 };
-
-const styles = StyleSheet.create({
-  userContainer: {
-    paddingTop: 60,
-  },
-});
 
 export default Home;

@@ -1,7 +1,7 @@
 import React from "react";
-import {SafeAreaView, StyleSheet, View} from "react-native";
+import styled from "styled-components";
 
-interface LayoutProps {
+export interface LayoutProps {
   justifyContent?: string;
   alignItems?: string;
 }
@@ -12,25 +12,18 @@ const Layout: React.FC<LayoutProps> = ({
   children,
 }) => {
   return (
-    <SafeAreaView style={styles.container}>
-      <View
-        style={[
-          styles.container,
-          {
-            justifyContent,
-            alignItems,
-          },
-        ]}>
-        {children}
-      </View>
-    </SafeAreaView>
+    <SafeAreContainer>
+      <Wrapper style={[justifyContent, alignItems]}>{children}</Wrapper>
+    </SafeAreContainer>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+const SafeAreContainer = styled.SafeAreaView`
+  flex: 1;
+`;
+
+const Wrapper = styled.View`
+  flex: 1;
+`;
 
 export default Layout;

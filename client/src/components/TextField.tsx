@@ -1,9 +1,10 @@
 import React from "react";
-import {StyleSheet, Text, TextInput, View} from "react-native";
+import styled from "styled-components";
 
 import {colors, fonts} from "../theme";
+import Text from "./Text";
 
-interface TextField {
+export interface TextField {
   label: string;
   error: Array<{
     field: string;
@@ -13,36 +14,29 @@ interface TextField {
 
 const TextField: React.FC<TextField> = ({label, error, ...props}) => {
   return (
-    <View style={style.inputContainer}>
-      <TextInput
+    <Container>
+      <Input
         placeholder={label}
         autoCapitalize={"none"}
         autoCorrect={false}
-        style={style.input}
         {...props}
       />
-      <Text style={style.errorText}>{error && error[0].message}</Text>
-    </View>
+      <Text danger>{error && error[0].message}</Text>
+    </Container>
   );
 };
 
-const style = StyleSheet.create({
-  errorText: {
-    paddingVertical: 4,
-    color: colors.danger,
-    fontSize: fonts.fontSizeH6,
-  },
-  inputContainer: {
-    marginBottom: 10,
-  },
-  input: {
-    fontSize: fonts.fontSizeH5,
-    color: colors.baseColor,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.baseColorOpacity,
-    height: 40,
-    width: "100%",
-  },
-});
+const Container = styled.View`
+  margin-bottom: 10px;
+`;
+
+const Input = styled.TextInput`
+  font-size: ${fonts.fontSizeH5};
+  color: ${colors.baseFontColor};
+  border-bottom-width: 1;
+  border-bottom-color: ${colors.baseColorOpacity};
+  height: 40px;
+  width: 100%;
+`;
 
 export default TextField;

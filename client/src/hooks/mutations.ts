@@ -19,13 +19,15 @@ export const useSignUpMutation = () => {
     },
   });
 
+  const singupError = error && error.graphQLErrors[0];
+
   const mutation: any = [
     (input: SignUpInput) =>
       signupMutate({
         variables: {input},
       }),
     loading,
-    error,
+    singupError,
   ];
 
   return mutation;
@@ -41,13 +43,15 @@ export const useLoginMutation = () => {
     },
   });
 
+  const loginError = error && error.graphQLErrors[0];
+
   const mutation: any = [
     (email: string, password: string) =>
       loginMutate({
         variables: {input: {email, password}},
       }),
     loading,
-    error,
+    loginError,
   ];
 
   return mutation;
@@ -63,13 +67,15 @@ export const useLoginWithFacebookMutation = () => {
     },
   });
 
+  const loginError = error && error.graphQLErrors[0];
+
   const mutation: any = [
     (accessToken: string) =>
       loginMutate({
         variables: {input: {accessToken}},
       }),
     loading,
-    error,
+    loginError,
   ];
 
   return mutation;
