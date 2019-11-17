@@ -39,6 +39,7 @@ const typeDefs = gql`
     username: String!
     password: String!
     role: UserRole
+    facebookId: String
     createdAt: Int
     updatedAt: Int
   }
@@ -56,14 +57,14 @@ const typeDefs = gql`
     email: String!
     password: String!
   }
-  input SigninInput {
+  input SignupInput {
     email: String!
-    password: String!
-    username: String!
-    role: String!
+    password: String
+    username: String
+    role: UserRole
   }
   type Mutation {
-    signin(input: SigninInput): User
+    signup(input: SignupInput): User
     login(input: LoginInput): User
     logout: Boolean
     editMerchant(publishedState: Boolean!): Merchant

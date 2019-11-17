@@ -1,21 +1,40 @@
 import React, {FunctionalComponent} from "react";
-import {StyleSheet, Text, View} from "react-native";
+import {Button, StyleSheet, Text, View} from "react-native";
 
-import Products from "../components/Products";
+import {Layout, Products} from "../components";
+import {useLogoutMutation} from "../hooks/mutations";
+import {useCurrentUserQuery} from "../hooks/queries";
 
-const Home: FunctionalComponent = () => {
+const Home: FunctionalComponent = props => {
+  const {data, loading} = useCurrentUserQuery();
+  const mutate = useLogoutMutation();
+
+  const logout = async () => {
+    await mutate();
+    props.navigation.navigate("Login");
+  };
+
+  if (loading) {
+    return <View />;
+  }
+
+  const currentUser = data && data.currentUser;
   return (
-    <View>
+    <Layout>
+      {currentUser && (
+        <View style={styles.userContainer}>
+          <Text>{currentUser.username}</Text>
+          <Button title="Logout" onPress={logout} />
+        </View>
+      )}
       <Products />
-    </View>
+    </Layout>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
+  userContainer: {
+    paddingTop: 60,
   },
 });
 

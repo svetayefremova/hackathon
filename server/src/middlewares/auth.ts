@@ -1,3 +1,4 @@
+import dotenv from "dotenv";
 import express from "express";
 import session from "express-session";
 import {GraphQLLocalStrategy} from "graphql-passport";
@@ -6,17 +7,20 @@ import uuid from "uuid/v4";
 
 import User from "../models/UserModel";
 
+dotenv.config();
+
+const SECRET_KEY = process.env.SECRET_KEY;
+
 const app = express();
-const SECRET_KEY = "secret"; // hard-coded; TODO move to .env
 
 passport.use(
-  new GraphQLLocalStrategy(async (email, password, done) => {
+  new GraphQLLocalStrategy(async (email, done) => {
     const matchingUser = await User.findOne({
       email,
     });
     const error = matchingUser
       ? null
-      : new Error("User with email doesn't exist");
+      : new Error("User with this email doesn't exist");
     done(error, matchingUser);
   }),
 );

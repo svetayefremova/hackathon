@@ -1,5 +1,6 @@
 import {ApolloServer} from "apollo-server-express";
 import cors from "cors";
+import dotenv from "dotenv";
 import express from "express";
 import {buildContext} from "graphql-passport";
 import Mongoose from "mongoose";
@@ -10,8 +11,11 @@ import resolvers from "./resolvers";
 import typeDefs from "./schema";
 import seed from "./seed";
 
+dotenv.config();
+
+const PORT = process.env.PORT;
+
 const app = express();
-const PORT = 8080;
 
 Mongoose.Promise = global.Promise;
 Mongoose.connect(

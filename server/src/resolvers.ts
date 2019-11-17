@@ -29,13 +29,13 @@ const resolvers: IResolvers = {
   },
 
   Mutation: {
-    signin: async (_, {input}, context) => {
+    signup: async (_, {input}, context) => {
       let user = await User.findOne({
         email: input.email,
       });
 
       if (user) {
-        throw new Error("User with email already exists");
+        throw new Error("User with this email already exists");
       }
 
       const hashedPassword = await bcrypt.hash(input.password, 10);

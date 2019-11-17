@@ -1,19 +1,25 @@
-import AsyncStorage from "@react-native-community/async-storage";
 import React, {FunctionalComponent, useEffect} from "react";
 import {ActivityIndicator, StyleSheet, View} from "react-native";
 import {Themed} from "react-navigation";
 import {NavigationStackScreenProps} from "react-navigation-stack";
 
+import {useCurrentUserQuery} from "../hooks/queries";
+
 const Loading: FunctionalComponent<NavigationStackScreenProps> = props => {
+  const {data, loading} = useCurrentUserQuery();
+
+  const isLoggedIn = data && data.currentUser;
+
   const bootstrapAsync = async () => {
-    const userToken: string = await AsyncStorage.getItem("userToken");
-    const initialRouteName: string = userToken ? "App" : "Auth";
+    const initialRouteName: string = isLoggedIn ? "App" : "Auth";
     props.navigation.navigate(initialRouteName);
   };
 
   useEffect(() => {
-    bootstrapAsync();
-  }, [bootstrapAsync]);
+    if (!loading) {
+      bootstrapAsync();
+    }
+  }, [bootstrapAsync, loading]);
 
   return (
     <View style={styles.container}>

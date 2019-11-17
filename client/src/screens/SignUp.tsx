@@ -1,5 +1,5 @@
 import useForm from "rc-form-hooks";
-import React, {FunctionalComponent} from "react";
+import React, {FunctionalComponent, useState} from "react";
 import {
   Button,
   KeyboardAvoidingView,
@@ -10,7 +10,8 @@ import {
 } from "react-native";
 
 import {Layout, TextField} from "../components";
-import {fonts} from "../theme";
+import {SignUpInput, useSignUpMutation} from "../hooks/mutations";
+import {colors} from "../theme";
 
 interface SignUpForm {
   username: string;
@@ -19,18 +20,43 @@ interface SignUpForm {
   confirmPassword: string;
 }
 
-const SignUp: FunctionalComponent = () => {
-  const {getFieldDecorator, validateFields, getFieldValue, errors} = useForm<
-    SignUpForm
-  >();
+interface SignUpFormProps {
+  onSubmit: (SignUpForm) => void;
+  disabled: boolean;
+  error: {
+    message: string;
+  };
+}
+
+const SignUpForm: FunctionalComponent<SignUpFormProps> = ({
+  onSubmit,
+  disabled,
+  error,
+}) => {
+  const [state, setState] = useState({
+    confirmDirty: false,
+  });
+  const {
+    getFieldDecorator,
+    validateFields,
+    getFieldValue,
+    resetFields,
+    values,
+    errors,
+  } = useForm<SignUpForm>();
 
   const handleSubmit = () => {
     validateFields()
       .then(() => {
-        // TODO sign in/ navigate to home
+        onSubmit({
+          email: values.email,
+          password: values.password,
+          username: values.username,
+        });
+        resetFields();
       })
       .catch(e => {
-        // console.log("err", e);
+        console.log("err", e);
       });
   };
 
@@ -43,83 +69,109 @@ const SignUp: FunctionalComponent = () => {
   };
 
   const validatePassword = (_, value: string, callback: any) => {
-    if (value) {
+    if (value && state.confirmDirty) {
       validateFields(["confirmPassword"], {force: true});
     }
     callback();
+  };
+
+  const handleConfirmBlur = (e: any) => {
+    const {value} = e.target;
+    setState({...state, confirmDirty: state.confirmDirty || !!value});
+  };
+
+  return (
+    <View onPress={handleSubmit} style={styles.form}>
+      {getFieldDecorator("username", {
+        trigger: "onChangeText",
+        rules: [
+          {
+            max: 24,
+            message: "The length should be less then 24 characters!",
+          },
+          {
+            required: true,
+            message: "Please input your Username!",
+          },
+        ],
+      })(<TextField label="Username" error={errors.username} />)}
+      {getFieldDecorator("email", {
+        trigger: "onChangeText",
+        rules: [
+          {
+            type: "email",
+            message: "The input is not a valid E-mail!",
+          },
+          {
+            required: true,
+            message: "Please input your E-mail!",
+          },
+        ],
+      })(
+        <TextField
+          label="E-mail"
+          keyboardType="email-address"
+          error={errors.email}
+        />,
+      )}
+      {getFieldDecorator("password", {
+        trigger: "onChangeText",
+        rules: [
+          {
+            required: true,
+            message: "Please input your Password!",
+          },
+          {
+            validator: validatePassword,
+          },
+        ],
+      })(
+        <TextField label="Password" secureTextEntry error={errors.password} />,
+      )}
+      {getFieldDecorator("confirmPassword", {
+        trigger: "onChangeText",
+        rules: [
+          {
+            required: true,
+            message: "Please confirm your Password!",
+          },
+          {
+            validator: comparePassword,
+          },
+        ],
+      })(
+        <TextField
+          label="Confirm Password"
+          secureTextEntry
+          error={errors.confirmPassword}
+          onBlur={handleConfirmBlur}
+        />,
+      )}
+      {error && <Text style={styles.error}>{error.message}</Text>}
+      <Button title="Register" onPress={handleSubmit} disabled={disabled} />
+    </View>
+  );
+};
+
+const SignUp: FunctionalComponent = props => {
+  const [mutate, loading, error] = useSignUpMutation();
+
+  const onSubmit = async (input: SignUpInput) => {
+    const {
+      data: {signup},
+    } = await mutate(input);
+    if (signup) {
+      props.navigation.navigate("Home");
+    } else {
+      alert("Ooops... something went wrong...");
+    }
   };
 
   return (
     <KeyboardAvoidingView behavior="padding" enabled style={styles.container}>
       <Layout>
         <ScrollView centerContent>
-          <View onPress={handleSubmit} style={styles.form}>
-            {getFieldDecorator("username", {
-              rules: [
-                {
-                  max: 24,
-                  message: "The length should be less then 24 characters!",
-                },
-                {
-                  required: true,
-                  message: "Please input your Username!",
-                },
-              ],
-            })(<TextField label="Username" error={errors.username} />)}
-            {getFieldDecorator("email", {
-              rules: [
-                {
-                  type: "email",
-                  message: "The input is not a valid E-mail!",
-                },
-                {
-                  required: true,
-                  message: "Please input your E-mail!",
-                },
-              ],
-            })(
-              <TextField
-                label="E-mail"
-                keyboardType="email-address"
-                error={errors.email}
-              />,
-            )}
-            {getFieldDecorator("password", {
-              rules: [
-                {
-                  required: true,
-                  message: "Please input your Password!",
-                },
-                {
-                  validator: validatePassword,
-                },
-              ],
-            })(
-              <TextField
-                label="Password"
-                secureTextEntry
-                error={errors.password}
-              />,
-            )}
-            {getFieldDecorator("confirmPassword", {
-              rules: [
-                {
-                  required: true,
-                  message: "Please confirm your Password!",
-                },
-                {
-                  validator: comparePassword,
-                },
-              ],
-            })(
-              <TextField
-                label="Confirm Password"
-                secureTextEntry
-                error={errors.confirmPassword}
-              />,
-            )}
-            <Button title="Register" onPress={handleSubmit} />
-          </View>
+          <SignUpForm onSubmit={onSubmit} disabled={loading} error={error} />
         </ScrollView>
       </Layout>
     </KeyboardAvoidingView>
@@ -133,6 +185,11 @@ const styles = StyleSheet.create({
   form: {
     flex: 1,
     padding: 20,
+  },
+  error: {
+    color: colors.danger,
+    textAlign: "center",
+    padding: 8,
   },
 });
 
