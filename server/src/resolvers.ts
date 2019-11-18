@@ -4,7 +4,7 @@ import {IResolvers} from "graphql-tools";
 import moment from "moment";
 
 import Product from "./models/ProductModel";
-import User, {IUser, UserRole} from "./models/UserModel";
+import User, {IUser} from "./models/UserModel";
 
 enum ErrorCode {
   registeredWithSocial = "REGISTERED_WITH_SOCIAL_ERROR",
@@ -62,7 +62,6 @@ const resolvers: IResolvers = {
         username: input.username,
         email: input.email,
         password: hashedPassword,
-        role: UserRole.user,
         createdAt: moment.utc().unix(),
         updatedAt: moment.utc().unix(),
       });

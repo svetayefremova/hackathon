@@ -1,5 +1,5 @@
 import React from "react";
-import {Image, StyleSheet} from "react-native";
+import {StyleSheet} from "react-native";
 import {Transition} from "react-native-reanimated";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {createAppContainer} from "react-navigation";
@@ -11,7 +11,7 @@ import Loading from "../screens/Loading";
 import Login from "../screens/Login";
 import SignUp from "../screens/SignUp";
 import Welcome from "../screens/Welcome";
-import {colors, fonts, images} from "../theme";
+import {colors, fonts} from "../theme";
 
 const BackIcon = (
   <Icon
@@ -35,13 +35,8 @@ const AppStack = createStackNavigator({
   Home: {
     screen: Home,
     navigationOptions: () => ({
-      headerTitle: () => (
-        <Image source={images.logo} resizeMode="contain" style={{height: 24}} />
-      ),
       headerStyle: styles.navigationHeader,
-      headerTintColor: colors.primary,
-      headerTitleStyle: styles.headerTitleStyle,
-      cardTransparent: true,
+      headerTintColor: colors.primary
     }),
   },
 });
@@ -99,9 +94,6 @@ const SwitchNavigator = createAnimatedSwitchNavigator(
 const styles = StyleSheet.create({
   navigationHeader: {
     borderBottomWidth: 0,
-  },
-  headerTitleStyle: {
-    color: colors.primary,
   },
 });
 

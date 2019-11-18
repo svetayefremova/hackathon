@@ -3,7 +3,7 @@ export default {
   baseColorOpacity: "rgba(80,88,92,0.24)",
 
   primary: "rgba(62,185,174,1)", // #3EB9AE
-  primaryOpacity: "rgba(62,185,174,0.4)",
+  primaryOpacity: "rgba(62,185,174,0.24)",
   primaryDark: "rgba(36,111,104, 1)", // #246F68
 
   secondary: "green",

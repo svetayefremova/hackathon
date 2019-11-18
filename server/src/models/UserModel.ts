@@ -1,10 +1,5 @@
 import mongoose, {Document, Schema} from "mongoose";
 
-export enum UserRole {
-  admin,
-  user,
-}
-
 export interface IUser extends Document {
   id: string;
   username: string;
@@ -16,7 +11,6 @@ export interface IUser extends Document {
       token: string;
     };
   };
-  role: UserRole;
   createdAt: number;
   updatedAt: number;
 }
@@ -31,7 +25,6 @@ const user: Schema = new Schema({
       token: String,
     },
   },
-  role: String,
   createdAt: Number,
   updatedAt: Number,
 });

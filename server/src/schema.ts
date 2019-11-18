@@ -29,10 +29,6 @@ const typeDefs = gql`
     quantity: Int
     image: String
   }
-  enum UserRole {
-    admin
-    user
-  }
   type Social {
     id: String
     token: String
@@ -45,7 +41,6 @@ const typeDefs = gql`
     email: String!
     username: String
     password: String
-    role: UserRole
     social: SocialProvider
     createdAt: Int
     updatedAt: Int
@@ -71,7 +66,6 @@ const typeDefs = gql`
     email: String!
     password: String
     username: String
-    role: UserRole
   }
   type Mutation {
     signup(input: SignupInput): User

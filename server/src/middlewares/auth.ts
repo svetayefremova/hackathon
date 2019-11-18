@@ -7,7 +7,7 @@ import passport from "passport";
 import FacebookTokenStrategy from "passport-facebook-token";
 import uuid from "uuid/v4";
 
-import User, {UserRole} from "../models/UserModel";
+import User from "../models/UserModel";
 
 dotenv.config();
 
@@ -69,7 +69,6 @@ const FacebookTokenStrategyCallback = async (
     registeredUser = await User.create({
       username: profile.displayName,
       email: profile.emails[0].value,
-      role: UserRole.user,
       social: {
         facebookProvider: {
           id: profile.id,
