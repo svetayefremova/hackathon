@@ -5,6 +5,7 @@ import {NavigationStackScreenProps} from "react-navigation-stack";
 
 import {Container} from "../components";
 import {useCurrentUserQuery} from "../hooks/queries";
+import {colors} from "../theme";
 
 const Loading: React.FC<NavigationStackScreenProps> = props => {
   const {data, loading} = useCurrentUserQuery();
@@ -24,7 +25,7 @@ const Loading: React.FC<NavigationStackScreenProps> = props => {
 
   return (
     <Container center>
-      <ActivityIndicator />
+      <ActivityIndicator color={colors.primaryDark} size="large" />
       <Themed.StatusBar />
     </Container>
   );

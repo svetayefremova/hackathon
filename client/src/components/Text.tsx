@@ -10,6 +10,7 @@ export interface CustomTextProps {
   large?: boolean;
   align?: string;
   light?: boolean;
+  padding?: number;
 }
 
 const CustomText: React.FC<CustomTextProps> = ({
@@ -20,11 +21,12 @@ const CustomText: React.FC<CustomTextProps> = ({
   large,
   light,
   align = "left",
+  padding = 8,
   ...props
 }) => {
   if (danger) {
     return (
-      <Danger {...props} align={align}>
+      <Danger align={align} padding={`${padding}px`} {...props}>
         {children}
       </Danger>
     );
@@ -32,7 +34,7 @@ const CustomText: React.FC<CustomTextProps> = ({
 
   if (title) {
     return (
-      <Title {...props} align={align}>
+      <Title align={align} light={light} padding={`${padding}px`} {...props}>
         {children}
       </Title>
     );
@@ -40,7 +42,7 @@ const CustomText: React.FC<CustomTextProps> = ({
 
   if (note) {
     return (
-      <Note {...props} align={align}>
+      <Note align={align} light={light} padding={`${padding}px`} {...props}>
         {children}
       </Note>
     );
@@ -48,22 +50,14 @@ const CustomText: React.FC<CustomTextProps> = ({
 
   if (large) {
     return (
-      <Large {...props} align={align}>
+      <Large align={align} light={light} padding={`${padding}px`} {...props}>
         {children}
       </Large>
     );
   }
 
-  if (light) {
-    return (
-      <Light {...props} align={align}>
-        {children}
-      </Light>
-    );
-  }
-
   return (
-    <Paragraph {...props} align={align}>
+    <Paragraph align={align} light={light} padding={`${padding}px`} {...props}>
       {children}
     </Paragraph>
   );
@@ -72,40 +66,40 @@ const CustomText: React.FC<CustomTextProps> = ({
 export default CustomText;
 
 const Paragraph = styled.Text`
-  color: ${colors.baseFontColor};
+  color: ${props =>
+    props.light ? colors.lightFontColor : colors.baseFontColor};
   text-align: ${props => props.align};
+  padding: ${props => props.padding};
 `;
 
 const Danger = styled.Text`
   color: ${colors.danger};
   text-align: center;
-  padding: 8px;
   text-align: ${props => props.align};
+  padding: ${props => props.padding};
 `;
 
 const Title = styled.Text`
-  color: ${colors.darkFontColor};
+  color: ${props =>
+    props.light ? colors.lightFontColor : colors.darkFontColor};
   text-align: center;
-  padding: 8px;
   font-size: ${fonts.fontSizeH3};
   text-align: ${props => props.align};
+  padding: ${props => props.padding};
 `;
 
 const Note = styled.Text`
-  color: ${colors.baseFontColor};
+  color: ${props =>
+    props.light ? colors.lightFontColor : colors.baseFontColor};
   font-size: ${fonts.fontSizeH6};
-  padding: 8px;
   text-align: ${props => props.align};
+  padding: ${props => props.padding};
 `;
 
 const Large = styled.Text`
-  color: ${colors.darkFontColor};
+  color: ${props =>
+    props.light ? colors.lightFontColor : colors.baseFontColor};
   font-size: ${fonts.fontSizeH2};
-  padding: 8px;
   text-align: ${props => props.align};
-`;
-
-const Light = styled.Text`
-  color: ${colors.lightFontColor};
-  text-align: ${props => props.align};
+  padding: ${props => props.padding};
 `;

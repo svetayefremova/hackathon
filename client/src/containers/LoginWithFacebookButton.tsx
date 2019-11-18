@@ -8,10 +8,12 @@ import {colors} from "../theme";
 
 interface LoginWithFacebookButton {
   onFinishLogin: () => void;
+  title?: string;
 }
 
 const LoginWithFacebookButton: React.FC<LoginWithFacebookButton> = ({
   onFinishLogin,
+  title = "Continue with Facebook",
 }) => {
   const [mutate, loading] = useLoginWithFacebookMutation();
 
@@ -39,11 +41,13 @@ const LoginWithFacebookButton: React.FC<LoginWithFacebookButton> = ({
   return (
     <View style={{marginVertical: 12}}>
       <Icon.Button
+        style={{padding: 16}}
         name="facebook"
+        border={8}
         backgroundColor={colors.facebook}
         onPress={loginWithFacebook}
         disabled={loading}>
-        Continue with Facebook
+        {title}
       </Icon.Button>
     </View>
   );

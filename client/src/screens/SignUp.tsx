@@ -47,11 +47,26 @@ const SignUp: React.FC<NavigationStackScreenProps> = props => {
       <Layout>
         <ScrollView centerContent>
           {formState === 0 && (
-            <SignUpForm
-              onSubmit={onSubmit}
-              disabled={loading}
-              error={serverError}
-            />
+            <>
+              <Container padding={20}>
+                <Text align="center">
+                  Create your account and get access to member exclusive
+                  products and benefits
+                </Text>
+                <LoginWithFacebookButton
+                  onFinishLogin={() => props.navigation.navigate("Home")}
+                  title="Log in with Facebook"
+                />
+              </Container>
+              <Text align="center" padding={16}>
+                ─── OR ───
+              </Text>
+              <SignUpForm
+                onSubmit={onSubmit}
+                disabled={loading}
+                error={serverError}
+              />
+            </>
           )}
           {formState === 1 && (
             <Container padding={20}>
@@ -66,6 +81,7 @@ const SignUp: React.FC<NavigationStackScreenProps> = props => {
               <Button
                 color={colors.primary}
                 title="Continue Creating a New account"
+                reverse
                 onPress={() => setFormState(0)}
               />
             </Container>

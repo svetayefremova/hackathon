@@ -63,6 +63,10 @@ const LoginForm: React.FC<LoginFormProps> = ({onLogin, disabled, error}) => {
         trigger: "onChangeText",
         rules: [
           {
+            pattern: /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/,
+            message: "Please enter a valid password!",
+          },
+          {
             required: true,
             message: "Please input your Password!",
           },
@@ -78,7 +82,7 @@ const LoginForm: React.FC<LoginFormProps> = ({onLogin, disabled, error}) => {
       )}
       {error && <Text danger>{error.message}</Text>}
       <Button
-        title="Login"
+        title="Log in"
         onPress={handleSubmit}
         disabled={disabled}
         uppercased

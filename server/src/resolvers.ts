@@ -47,7 +47,7 @@ const resolvers: IResolvers = {
 
       if (user && user.social && user.social.facebookProvider) {
         throw new ApolloError(
-          "You already have an account using Facebook Login. To avoid creating multiple accounts, login with Facebook",
+          "You already have an account using Facebook Login. To avoid creating multiple accounts, log in with Facebook",
           ErrorCode.registeredWithSocial,
         );
       }
@@ -77,6 +77,13 @@ const resolvers: IResolvers = {
       const {user} = await context.authenticate("graphql-local", {
         email: input.email,
       });
+
+      if (user && user.social && user.social.facebookProvider) {
+        throw new ApolloError(
+          "You are using Facebook to login. Please, continue login with Facebook",
+          ErrorCode.registeredWithSocial,
+        );
+      }
 
       const isValidPassword = await bcrypt.compare(
         input.password,

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import {colors} from "../theme";
 
 export interface SpinnerProps {
   center?: boolean;
@@ -13,7 +14,11 @@ const Spinner: React.FC<SpinnerProps> = ({
   ...props
 }) => {
   return (
-    <SpinnerContainer style={[{padding}]} center={center} {...props}>
+    <SpinnerContainer
+      style={[{padding}]}
+      center={center}
+      color={colors.primaryDark}
+      {...props}>
       {children}
     </SpinnerContainer>
   );

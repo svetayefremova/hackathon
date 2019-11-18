@@ -23,10 +23,12 @@
     "react-native-dotenv": "^0.2.0",
     "react-native-fbsdk": "^1.1.1",
     "react-native-gesture-handler": "^1.5.0",
+    "react-native-linear-gradient": "^2.5.6",
     "react-native-reanimated": "^1.4.0",
     "react-native-screens": "^1.0.0-alpha.23",
     "react-native-vector-icons": "^6.6.0",
     "react-navigation": "^4.0.10",
+    "react-navigation-animated-switch": "^0.3.2",
     "react-navigation-stack": "^1.10.3",
     "styled-components": "^4.4.0"
   },

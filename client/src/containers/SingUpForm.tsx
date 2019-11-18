@@ -72,8 +72,12 @@ const SignUpForm: React.FC<SignUpFormProps> = ({onSubmit, disabled, error}) => {
         trigger: "onChangeText",
         rules: [
           {
-            max: 24,
-            message: "The length should be less then 24 characters!",
+            max: 28,
+            message: "The length should be less then 28 characters!",
+          },
+          {
+            pattern: /^[a-z0-9_-]{3,28}$/,
+            message: "Please enter a valid username!",
           },
           {
             required: true,
@@ -106,6 +110,10 @@ const SignUpForm: React.FC<SignUpFormProps> = ({onSubmit, disabled, error}) => {
           {
             required: true,
             message: "Please input your Password!",
+          },
+          {
+            pattern: /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/,
+            message: "Please enter a valid password!",
           },
           {
             validator: validatePassword,
