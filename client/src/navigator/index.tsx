@@ -4,8 +4,11 @@ import {Transition} from "react-native-reanimated";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {createAppContainer} from "react-navigation";
 import createAnimatedSwitchNavigator from "react-navigation-animated-switch";
+import {createDrawerNavigator} from "react-navigation-drawer";
 import {createStackNavigator} from "react-navigation-stack";
 
+import {DrawerContent} from "../containers";
+import Cart from "../screens/Cart";
 import Home from "../screens/Home";
 import Loading from "../screens/Loading";
 import Login from "../screens/Login";
@@ -31,15 +34,52 @@ const CloseIcon = (
   />
 );
 
-const AppStack = createStackNavigator({
-  Home: {
-    screen: Home,
-    navigationOptions: () => ({
-      headerStyle: styles.navigationHeader,
-      headerTintColor: colors.primary
-    }),
+const HomeStack = createStackNavigator(
+  {
+    Home: {
+      screen: Home,
+      navigationOptions: () => ({
+        headerStyle: styles.navigationHeader,
+        headerTintColor: colors.primary,
+        headerBackImage: BackIcon,
+      }),
+    },
+    Cart: {
+      screen: Cart,
+      navigationOptions: () => ({
+        headerStyle: styles.navigationHeader,
+        headerTintColor: colors.primary,
+        headerBackImage: CloseIcon,
+      }),
+    },
   },
-});
+  {
+    mode: "modal",
+    headerBackTitleVisible: false,
+  },
+);
+
+const AppStack = createDrawerNavigator(
+  {
+    Main: createStackNavigator(
+      {
+        Home: HomeStack,
+        Chechout: {
+          screen: Cart,
+          navigationOptions: () => ({
+            headerStyle: styles.navigationHeader,
+            headerTintColor: colors.primary,
+            headerBackImage: BackIcon,
+          }),
+        },
+      },
+      {headerMode: "none", headerBackTitleVisible: false},
+    ),
+  },
+  {
+    contentComponent: props => <DrawerContent {...props} />,
+  },
+);
 
 const AuthStack = createStackNavigator(
   {

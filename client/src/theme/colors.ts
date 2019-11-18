@@ -1,5 +1,5 @@
 export default {
-  baseColor: "#55585c",
+  baseColor: "#484D57",
   baseColorOpacity: "rgba(80,88,92,0.24)",
 
   primary: "rgba(62,185,174,1)", // #3EB9AE
@@ -8,11 +8,12 @@ export default {
 
   secondary: "green",
 
-  danger: "#ED4337",
+  danger: "#dc555b",
 
-  baseFontColor: "#484D57",
-  darkFontColor: "#4f5760",
+  baseFontColor: "#7F8283",
+  darkFontColor: "#0c1214",
   lightFontColor: "#fff",
 
+  background: "#F7F7F7",
   facebook: "#3b5998",
 };

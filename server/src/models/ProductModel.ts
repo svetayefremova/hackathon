@@ -3,11 +3,10 @@ import mongoose, {Document, Schema} from "mongoose";
 import {IMerchant} from "./MerchantModel";
 
 export interface IProduct extends Document {
+  name: string;
   belongsToBrand: number;
-  id: string;
-  name: number;
-  price: number;
   description: string;
+  price: number;
   color: string;
   size: string;
   quantity: number;
@@ -16,10 +15,10 @@ export interface IProduct extends Document {
 }
 
 const product: Schema = new Schema({
-  belongsToBrand: Number,
   name: String,
-  price: Number,
+  belongsToBrand: Number,
   description: String,
+  price: Number,
   color: String,
   size: String,
   quantity: Number,

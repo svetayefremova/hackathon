@@ -16,6 +16,7 @@ const Container: React.FC<ContainerProps> = ({
   direction = "column",
   align = "stretch",
   justify = "flex-start",
+  ...props
 }) => {
   if (center) {
     return (
@@ -26,7 +27,8 @@ const Container: React.FC<ContainerProps> = ({
     <StyledContainer
       style={[{padding, flexDirection: direction}]}
       align={align}
-      justify={justify}>
+      justify={justify}
+      {...props}>
       {children}
     </StyledContainer>
   );

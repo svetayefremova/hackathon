@@ -3,12 +3,20 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import {buildContext} from "graphql-passport";
+import {merge} from "lodash";
 import Mongoose from "mongoose";
 
 import auth from "./middlewares/auth";
 import User from "./models/UserModel";
-import resolvers from "./resolvers";
-import typeDefs from "./schema";
+import cartResolver from "./resolvers/CartResolver";
+import merchantResolver from "./resolvers/MerchantResolver";
+import productResolver from "./resolvers/ProductResolver";
+import userResolver from "./resolvers/UserResolver";
+import cartTypeDefs from "./schema/CartSchema";
+import merchantTypeDefs from "./schema/MerchantSchema";
+import productTypeDefs from "./schema/ProductSchema";
+import rootTypeDefs from "./schema/RootSchema";
+import userTypeDefs from "./schema/UserSchema";
 import seed from "./seed";
 
 dotenv.config();
@@ -32,8 +40,19 @@ app.use(cors());
 app.use(auth);
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+  typeDefs: [
+    cartTypeDefs,
+    rootTypeDefs,
+    productTypeDefs,
+    merchantTypeDefs,
+    userTypeDefs,
+  ],
+  resolvers: merge(
+    cartResolver,
+    merchantResolver,
+    productResolver,
+    userResolver,
+  ),
   context: ({req, res}) => buildContext({req, res, User}),
   playground: {
     settings: {

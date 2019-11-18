@@ -67,7 +67,7 @@ export default CustomText;
 
 const Paragraph = styled.Text`
   color: ${props =>
-    props.light ? colors.lightFontColor : colors.baseFontColor};
+    props.light ? colors.lightFontColor : colors.darkFontColor};
   text-align: ${props => props.align};
   padding: ${props => props.padding};
 `;
@@ -98,7 +98,7 @@ const Note = styled.Text`
 
 const Large = styled.Text`
   color: ${props =>
-    props.light ? colors.lightFontColor : colors.baseFontColor};
+    props.light ? colors.lightFontColor : colors.darkFontColor};
   font-size: ${fonts.fontSizeH2};
   text-align: ${props => props.align};
   padding: ${props => props.padding};

@@ -1,41 +1,37 @@
 import mongoose, {Document, Schema} from "mongoose";
 
 export interface IMerchant extends Document {
-  index: string;
-  guid: string;
-  logo: string;
-  dateCreated: string;
-  publishedState: string;
-  brands: [string];
   name: string;
+  logo: string;
+  brands: [string];
   commissionFee: string;
+  companyDescription: string;
   contactEmail: string;
   phone: string;
   address: string;
+  dateCreated: string;
+  publishedState: boolean;
   publishedDate: string;
   publishedBy: {
     userId: string;
   };
-  companyDescription: string;
 }
 
 const merchant: Schema = new Schema({
-  index: Number,
-  guid: String,
-  logo: String,
-  dateCreated: String,
-  publishedState: Boolean,
-  brands: [String],
   name: String,
+  logo: String,
+  brands: [String],
   commissionFee: String,
+  companyDescription: String,
   contactEmail: String,
   phone: String,
   address: String,
+  dateCreated: String,
+  publishedState: Boolean,
   publishedDate: String,
   publishedBy: {
     userId: String,
   },
-  companyDescription: String,
 });
 
 merchant.set("toObject", {getters: true, virtuals: true});

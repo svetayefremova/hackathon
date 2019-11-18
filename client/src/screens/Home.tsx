@@ -3,14 +3,13 @@ import {Image} from "react-native";
 import {NavigationStackScreenProps} from "react-navigation-stack";
 
 import {Layout} from "../components";
-import {Products, HeaderRightButton, HeaderLeftButton} from "../containers";
+import {HeaderLeftButton, HeaderRightButton, Products} from "../containers";
 import {images} from "../theme";
-
 
 const Home: React.FC<NavigationStackScreenProps> = props => {
   return (
     <Layout>
-      <Products />
+      <Products onBuy={() => props.navigation.navigate("Cart")} />
     </Layout>
   );
 };

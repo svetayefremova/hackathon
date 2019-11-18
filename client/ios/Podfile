@@ -36,6 +36,10 @@ target 'client' do
 
 
 
+  pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
+
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
   target 'clientTests' do
     inherit! :search_paths
     # Pods for testing
