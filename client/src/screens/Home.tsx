@@ -7,9 +7,13 @@ import {HeaderLeftButton, HeaderRightButton, Products} from "../containers";
 import {images} from "../theme";
 
 const Home: React.FC<NavigationStackScreenProps> = props => {
+  const addToCart = () => {
+    props.navigation.navigate("Cart");
+  };
+
   return (
     <Layout>
-      <Products onBuy={() => props.navigation.navigate("Cart")} />
+      <Products onAddToCart={addToCart} />
     </Layout>
   );
 };

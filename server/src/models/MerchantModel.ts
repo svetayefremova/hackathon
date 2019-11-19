@@ -1,6 +1,8 @@
-import mongoose, {Document, Schema} from "mongoose";
+import {Document, model, Schema} from "mongoose";
+import uuidv4 from "uuid/v4";
 
 export interface IMerchant extends Document {
+  id: string;
   name: string;
   logo: string;
   brands: [string];
@@ -9,16 +11,17 @@ export interface IMerchant extends Document {
   contactEmail: string;
   phone: string;
   address: string;
-  dateCreated: string;
+  dateCreated: Date;
   publishedState: boolean;
-  publishedDate: string;
+  publishedDate: Date;
   publishedBy: {
     userId: string;
   };
 }
 
-const merchant: Schema = new Schema({
-  name: String,
+const merchantSchema: Schema = new Schema({
+  id: {type: String, required: true, default: uuidv4},
+  name: {type: String, required: true, trim: true},
   logo: String,
   brands: [String],
   commissionFee: String,
@@ -26,14 +29,14 @@ const merchant: Schema = new Schema({
   contactEmail: String,
   phone: String,
   address: String,
-  dateCreated: String,
+  dateCreated: {type: Date, required: true, default: Date.now},
   publishedState: Boolean,
-  publishedDate: String,
+  publishedDate: Date,
   publishedBy: {
     userId: String,
   },
 });
 
-merchant.set("toObject", {getters: true, virtuals: true});
+merchantSchema.set("toObject", {getters: true, virtuals: true});
 
-export default mongoose.model<IMerchant>("Merchant", merchant);
+export default model<IMerchant>("Merchant", merchantSchema);

@@ -1,10 +1,18 @@
 import {useMutation} from "@apollo/react-hooks";
 
-import {LOGIN, LOGIN_WITH_FACEBOOK, LOGOUT, SIGNUP} from "../graphql/mutations";
-import {CURRENT_USER} from "../graphql/queries";
+import {
+  ADD_PRODUCT_TO_CART,
+  LOGIN,
+  LOGIN_WITH_FACEBOOK,
+  LOGOUT,
+  REMOVE_ITEM_FROM_CART,
+  SIGNUP,
+} from "../graphql/mutations";
+import {CURRENT_CART, CURRENT_USER} from "../graphql/queries";
+import {AddProductToCartInput, RemoveItemFromCartInput} from "../graphql/types";
 
 export interface SignUpInput {
-  username: string;
+  name: string;
   email: string;
   password: string;
 }
@@ -92,4 +100,50 @@ export const useLogoutMutation = () => {
   });
 
   return () => logoutMutate();
+};
+
+export const useAddProductToCartMutation = () => {
+  const [mutate, {loading, error}] = useMutation(
+    ADD_PRODUCT_TO_CART,
+
+    {
+      refetchQueries: [
+        {
+          query: CURRENT_CART,
+        },
+      ],
+    },
+  );
+
+  const mutation: any = [
+    (input: AddProductToCartInput) =>
+      mutate({
+        variables: {input},
+      }),
+    loading,
+    error,
+  ];
+
+  return mutation;
+};
+
+export const useRemoveItemFromCartMutation = () => {
+  const [mutate, {loading, error}] = useMutation(REMOVE_ITEM_FROM_CART, {
+    refetchQueries: [
+      {
+        query: CURRENT_CART,
+      },
+    ],
+  });
+
+  const mutation: any = [
+    (input: RemoveItemFromCartInput) =>
+      mutate({
+        variables: {input},
+      }),
+    loading,
+    error,
+  ];
+
+  return mutation;
 };

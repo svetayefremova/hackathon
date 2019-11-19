@@ -3,11 +3,12 @@ import express from "express";
 import session from "express-session";
 import {GraphQLLocalStrategy} from "graphql-passport";
 import moment from "moment";
+import {Model} from "mongoose";
 import passport from "passport";
 import FacebookTokenStrategy from "passport-facebook-token";
 import uuid from "uuid/v4";
 
-import User from "../models/UserModel";
+import User, {IUser} from "../models/UserModel";
 
 dotenv.config();
 
@@ -19,7 +20,7 @@ const app = express();
 
 passport.use(
   new GraphQLLocalStrategy(async (email, password, done) => {
-    const matchingUser = await User.findOne({
+    const matchingUser: Model<IUser> = await User.findOne({
       email,
     });
 
@@ -54,20 +55,20 @@ const FacebookTokenStrategyCallback = async (
             token: accessToken,
           },
         },
-        updatedAt: moment.utc().unix(),
+        lastModifiedAt: moment().toISOString(),
       },
     },
   );
 
   // Check if user is already connected with facebook account
-  let registeredUser = await User.findOne({
+  let registeredUser: Model<IUser> = await User.findOne({
     "social.facebookProvider.id": profile.id,
   });
 
   // Register new user with social
   if (!registeredUser) {
     registeredUser = await User.create({
-      username: profile.displayName,
+      name: profile.displayName,
       email: profile.emails[0].value,
       social: {
         facebookProvider: {
@@ -75,8 +76,6 @@ const FacebookTokenStrategyCallback = async (
           token: accessToken,
         },
       },
-      createdAt: moment.utc().unix(),
-      updatedAt: moment.utc().unix(),
     });
   }
 
@@ -102,7 +101,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (id, done) => {
-  const user = await User.findById(id);
+  const user: Model<IUser> = await User.findOne({id});
   done(null, user);
 });
 

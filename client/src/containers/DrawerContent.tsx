@@ -7,7 +7,7 @@ import {Container, Layout, Text} from "../components";
 import {User} from "../graphql/types";
 import {useLogoutMutation} from "../hooks/mutations";
 import {useCurrentUserQuery} from "../hooks/queries";
-import {colors} from "../theme";
+import {colors, fonts} from "../theme";
 
 const DrawerContent = props => {
   const mutate = useLogoutMutation();
@@ -20,15 +20,19 @@ const DrawerContent = props => {
 
   const currentUser: User = data && data.currentUser;
 
-  if (!currentUser) { return <View />; }
+  if (!currentUser) {
+    return <View />;
+  }
 
   return (
     <ScrollView>
       <Layout>
         <Wrapper>
-          <Container padding={20}>
-            <Text padding={0}>{currentUser.username}</Text>
-            <Text note padding={0}>
+          <Container padding={16}>
+            <Text padding={0} style={{fontSize: fonts.fontSizeH4}}>
+              {currentUser.name}
+            </Text>
+            <Text note padding={0} style={{fontSize: fonts.fontSizeH5}}>
               {currentUser.email}
             </Text>
           </Container>

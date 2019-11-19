@@ -13,7 +13,7 @@ const Layout: React.FC<LayoutProps> = ({
 }) => {
   return (
     <SafeAreContainer>
-      <Wrapper style={[justifyContent, alignItems]}>{children}</Wrapper>
+      <Wrapper style={[{justifyContent, alignItems}]}>{children}</Wrapper>
     </SafeAreContainer>
   );
 };

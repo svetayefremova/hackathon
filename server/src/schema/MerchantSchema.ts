@@ -3,7 +3,7 @@ import {gql} from "apollo-server-express";
 const merchantTypeDefs = gql`
   type Merchant {
     id: String!
-    name: String
+    name: String!
     logo: String
     brands: [String]
     commissionFee: String
@@ -11,9 +11,9 @@ const merchantTypeDefs = gql`
     contactEmail: String
     phone: String
     address: String
-    dateCreated: String
+    dateCreated: Date
     publishedState: Boolean
-    publishedDate: String
+    publishedDate: Date
     publishedBy: User
     products: [Product]
   }
@@ -21,6 +21,10 @@ const merchantTypeDefs = gql`
   extend type Query {
     merchantById(id: String!): Merchant
     merchants: [Merchant]
+  }
+
+  extend type Mutation {
+    editMerchant(publishedState: Boolean!): Merchant
   }
 `;
 

@@ -1,9 +1,11 @@
-import mongoose, {Document, Schema} from "mongoose";
+import {Document, model, Schema} from "mongoose";
+import uuidv4 from "uuid/v4";
 
 import {IMerchant} from "./MerchantModel";
 
 export interface IProduct extends Document {
-  name: string;
+  id: string;
+  name: number;
   belongsToBrand: number;
   description: string;
   price: number;
@@ -14,18 +16,27 @@ export interface IProduct extends Document {
   merchant: IMerchant;
 }
 
-const product: Schema = new Schema({
-  name: String,
-  belongsToBrand: Number,
+const productSchema: Schema = new Schema({
+  id: {type: String, required: true, default: uuidv4},
+  name: {type: String, required: true, trim: true},
+  belongsToBrand: {type: Number, required: true},
   description: String,
-  price: Number,
+  price: {type: Number, required: true},
   color: String,
-  size: String,
-  quantity: Number,
+  size: {
+    type: String,
+    required: true,
+    enum: ["XS", "S", "M", "L", "XL"],
+  },
+  quantity: {type: Number, required: true},
   image: String,
-  merchant: {type: Schema.Types.ObjectId, ref: "Merchant"},
+  merchant: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: "Merchant",
+  },
 });
 
-product.set("toObject", {getters: true, virtuals: true});
+productSchema.set("toObject", {getters: true, virtuals: true});
 
-export default mongoose.model<IProduct>("Product", product);
+export default model<IProduct>("Product", productSchema);

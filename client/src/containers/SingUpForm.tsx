@@ -4,7 +4,7 @@ import React, {useState} from "react";
 import {Button, Form, Text, TextField} from "../components";
 
 export interface SignUpInput {
-  username: string;
+  name: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -37,7 +37,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({onSubmit, disabled, error}) => {
         onSubmit({
           email: values.email,
           password: values.password,
-          username: values.username,
+          name: values.name,
         });
         resetFields();
       })
@@ -68,23 +68,19 @@ const SignUpForm: React.FC<SignUpFormProps> = ({onSubmit, disabled, error}) => {
 
   return (
     <Form onPress={handleSubmit}>
-      {getFieldDecorator("username", {
+      {getFieldDecorator("name", {
         trigger: "onChangeText",
         rules: [
           {
-            max: 28,
-            message: "The length should be less then 28 characters!",
-          },
-          {
-            pattern: /^[a-z0-9_-]{3,28}$/,
-            message: "Please enter a valid username!",
+            pattern: /^[A-Za-z ]{1,32}$/,
+            message: "The length should be less then 32 characters!",
           },
           {
             required: true,
-            message: "Please input your Username!",
+            message: "Please input your Name!",
           },
         ],
-      })(<TextField label="Username" error={errors.username} />)}
+      })(<TextField label="Name*" error={errors.name} />)}
       {getFieldDecorator("email", {
         trigger: "onChangeText",
         rules: [
@@ -99,7 +95,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({onSubmit, disabled, error}) => {
         ],
       })(
         <TextField
-          label="E-mail"
+          label="E-mail*"
           keyboardType="email-address"
           error={errors.email}
         />,
@@ -120,7 +116,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({onSubmit, disabled, error}) => {
           },
         ],
       })(
-        <TextField label="Password" secureTextEntry error={errors.password} />,
+        <TextField label="Password*" secureTextEntry error={errors.password} />,
       )}
       {getFieldDecorator("confirmPassword", {
         trigger: "onChangeText",
@@ -135,7 +131,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({onSubmit, disabled, error}) => {
         ],
       })(
         <TextField
-          label="Confirm Password"
+          label="Confirm Password*"
           secureTextEntry
           error={errors.confirmPassword}
           onBlur={handleConfirmBlur}

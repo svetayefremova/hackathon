@@ -9,6 +9,7 @@ import {createStackNavigator} from "react-navigation-stack";
 
 import {DrawerContent} from "../containers";
 import Cart from "../screens/Cart";
+import Checkout from "../screens/Checkout";
 import Home from "../screens/Home";
 import Loading from "../screens/Loading";
 import Login from "../screens/Login";
@@ -64,8 +65,8 @@ const AppStack = createDrawerNavigator(
     Main: createStackNavigator(
       {
         Home: HomeStack,
-        Chechout: {
-          screen: Cart,
+        Checkout: {
+          screen: Checkout,
           navigationOptions: () => ({
             headerStyle: styles.navigationHeader,
             headerTintColor: colors.primary,

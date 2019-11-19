@@ -9,7 +9,7 @@ import {SignUpInput, useSignUpMutation} from "../hooks/mutations";
 import {colors} from "../theme";
 
 export interface SignUpInput {
-  username: string;
+  name: string;
   email: string;
   password: string;
   confirmPassword: string;

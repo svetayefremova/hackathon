@@ -15,9 +15,12 @@ const productResolver: IResolvers = {
     products: async (_, {limit, offset}) => {
       const products = await Product.find()
         .limit(limit)
-        .skip(offset);
+        .skip(offset)
+        .populate("merchant");
 
-      return products.map(product => product.toObject());
+      if (products) {
+        return products.map(product => product.toObject());
+      }
     },
   },
 };

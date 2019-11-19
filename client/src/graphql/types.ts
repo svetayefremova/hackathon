@@ -2,19 +2,23 @@ export enum ErrorCode {
   registeredWithSocial = "REGISTERED_WITH_SOCIAL_ERROR",
 }
 
+export interface SocialProvider {
+  id: string;
+  token: string;
+}
+
+export interface Social {
+  facebookProvider: SocialProvider;
+}
+
 export interface User {
   id: string;
-  username: string;
+  name: string;
   email: string;
   password: string;
-  social: {
-    facebookProvider: {
-      id: string;
-      token: string;
-    };
-  };
-  createdAt: number;
-  updatedAt: number;
+  social: Social;
+  createdAt: Date;
+  lastModifiedAt: Date;
 }
 
 export interface Product {
@@ -40,10 +44,37 @@ export interface Merchant {
   contactEmail: string;
   phone: string;
   address: string;
-  dateCreated: string;
+  dateCreated: Date;
   publishedState: boolean;
-  publishedDate: string;
-  publishedBy: {
-    userId: string;
-  };
+  publishedDate: Date;
+  publishsedBy: User;
+  products: [Product];
+}
+
+export interface CartItem {
+  id: string;
+  product: Product;
+  quantity: number;
+  addedAt: Date;
+}
+
+export interface Cart {
+  id: string;
+  state: string;
+  user: User;
+  deviceToken: string;
+  items: [CartItem];
+  createdAt: Date;
+  lastModifiedAt: Date;
+}
+
+export interface AddProductToCartInput {
+  productId: string;
+  quantity: number;
+  deviceToken?: string;
+}
+
+export interface RemoveItemFromCartInput {
+  itemId: string;
+  deviceToken?: string;
 }

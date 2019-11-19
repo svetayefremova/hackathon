@@ -1,30 +1,34 @@
 import {gql} from "apollo-server-express";
 
 const cartTypeDefs = gql`
-  type Item {
-    product: Product
-    quantity: Int
-  }
-
   type Cart {
     id: String!
-    # state: String
+    state: String!
     user: User
-    # items: [Item]
-    # createdAt: Date
-    # lastModifiedAt: Date
+    deviceToken: String
+    items: [CartItem]
+    createdAt: Date!
+    lastModifiedAt: Date!
+  }
+
+  input AddProductToCartInput {
+    productId: String!
+    quantity: Int!
+    deviceToken: String
+  }
+
+  input RemoveItemFromCartInput {
+    itemId: String!
+    deviceToken: String
   }
 
   extend type Query {
-    cart: Cart
-    # getCartById(id: String!): Cart
-    carts: [Cart]
+    currentCart: Cart
   }
 
   extend type Mutation {
-    addItemToCart(productId: String!, quantity: Int!): Cart
-    removeItemFromCart(productId: String!): Cart
-    resetCart: String!
+    addProductToCart(input: AddProductToCartInput!): Product
+    removeItemFromCart(input: RemoveItemFromCartInput): String
   }
 `;
 

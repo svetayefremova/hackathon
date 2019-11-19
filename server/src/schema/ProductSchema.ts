@@ -3,15 +3,15 @@ import {gql} from "apollo-server-express";
 const productTypeDefs = gql`
   type Product {
     id: String!
-    name: String
-    belongsToBrand: Int
+    name: String!
+    belongsToBrand: Int!
     description: String
-    price: Float
+    price: Float!
     color: String
-    size: String
-    quantity: Int
+    size: String!
+    quantity: Int!
     image: String
-    merchant: Merchant
+    merchant: Merchant!
   }
 
   extend type Query {

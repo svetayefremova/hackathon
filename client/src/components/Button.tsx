@@ -8,6 +8,7 @@ export interface ButtonProps {
   uppercase?: boolean;
   reverse?: boolean;
   small?: boolean;
+  isDisabledStyle?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -15,11 +16,17 @@ const Button: React.FC<ButtonProps> = ({
   reverse,
   uppercased,
   small,
+  isDisabledStyle,
   ...props
 }) => {
   return (
     <ButtonContainer
-      style={[{backgroundColor: reverse ? "transparent" : colors.primary}]}
+      style={[
+        {
+          backgroundColor: reverse ? "transparent" : colors.primary,
+          opacity: isDisabledStyle ? 0.5 : 1,
+        },
+      ]}
       small={small}
       {...props}>
       <ButtonText

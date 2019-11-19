@@ -1,8 +1,9 @@
-import mongoose, {Document, Schema} from "mongoose";
+import {Document, model, Schema} from "mongoose";
+import uuidv4 from "uuid/v4";
 
 export interface IUser extends Document {
   id: string;
-  username: string;
+  name: string;
   email: string;
   password: string;
   social: {
@@ -11,12 +12,13 @@ export interface IUser extends Document {
       token: string;
     };
   };
-  createdAt: number;
-  updatedAt: number;
+  createdAt: Date;
+  lastModifiedAt: Date;
 }
 
-const user: Schema = new Schema({
-  username: String,
+const userSchema: Schema = new Schema({
+  id: {type: String, required: true, default: uuidv4},
+  name: String,
   email: {type: String, unique: true, required: true},
   password: String,
   social: {
@@ -25,10 +27,10 @@ const user: Schema = new Schema({
       token: String,
     },
   },
-  createdAt: Number,
-  updatedAt: Number,
+  createdAt: {type: Date, required: true, default: Date.now},
+  lastModifiedAt: {type: Date, required: true, default: Date.now},
 });
 
-user.set("toObject", {getters: true, virtuals: true});
+userSchema.set("toObject", {getters: true, virtuals: true});
 
-export default mongoose.model<IUser>("User", user);
+export default model<IUser>("User", userSchema);

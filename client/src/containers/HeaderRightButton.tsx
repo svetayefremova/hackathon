@@ -11,7 +11,7 @@ const HeaderRightButton: React.FC = props => {
       color={colors.darkFontColor}
       size={28}
       underlayColor="transparent"
-      onPress={() => props.navigation.navigate("Chechout")}
+      onPress={() => props.navigation.navigate("Checkout")}
     />
   );
 };

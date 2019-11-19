@@ -2,32 +2,37 @@ import {gql} from "apollo-server-express";
 
 const userTypeDefs = gql`
   type User {
-    id: ID!
+    id: String!
     email: String!
-    username: String
+    name: String
     password: String
     social: SocialProvider
-    createdAt: Int
-    updatedAt: Int
+    createdAt: Date!
+    lastModifiedAt: Date!
   }
+
   type Social {
     id: String
     token: String
   }
+
   type SocialProvider {
     facebookProvider: Social
   }
+
   input LoginInput {
     email: String!
     password: String
   }
+
   input AuthInput {
     accessToken: String
   }
+
   input SignupInput {
     email: String!
     password: String
-    username: String
+    name: String
   }
 
   extend type Query {

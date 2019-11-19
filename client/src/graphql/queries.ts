@@ -1,45 +1,62 @@
 import gql from "graphql-tag";
 
+import fragments from "./fragments";
+
 export const CURRENT_USER = gql`
   query {
     currentUser {
-      id
-      username
-      email
+      ...UserDetails
     }
   }
+  ${fragments.userDetails}
 `;
 
 export const USER_BY_ID = gql`
   query userById($id: ID!) {
     userById(id: $id) {
-      id
-      username
-      email
+      ...UserDetails
     }
   }
+  ${fragments.userDetails}
 `;
 
 export const USERS = gql`
   query users($limit: Int, $offset: Int) {
     users(limit: $limit, offset: $offset) {
-      id
-      username
-      email
+      ...UserDetails
     }
   }
+  ${fragments.userDetails}
 `;
 
 export const PRODUCTS = gql`
   query products($limit: Int, $offset: Int) {
     products(limit: $limit, offset: $offset) {
-      id
-      name
-      price
-      description
-      color
-      size
-      image
+      ...ProductDetails
     }
   }
+  ${fragments.productDetails}
+`;
+
+export const CURRENT_CART = gql`
+  query currentCart {
+    currentCart {
+      id
+      state
+      user {
+        ...UserDetails
+      }
+      deviceToken
+      items {
+        id
+        quantity
+        product {
+          ...ProductDetails
+        }
+        addedAt
+      }
+    }
+  }
+  ${fragments.userDetails}
+  ${fragments.productDetails}
 `;

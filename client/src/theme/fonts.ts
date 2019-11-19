@@ -6,7 +6,7 @@ export default {
   fontSizeH2: 36,
   fontSizeH3: 24,
   fontSizeH4: 18,
-  fontSizeH5: 16,
+  fontSizeH5: 14,
   fontSizeH6: 10,
 
   iconSizeXLarge: 48,
