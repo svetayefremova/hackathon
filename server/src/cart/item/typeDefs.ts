@@ -1,6 +1,6 @@
 import {gql} from "apollo-server-express";
 
-const cartItemTypeDefs = gql`
+const typeDefs = gql`
   type CartItem {
     id: String!
     product: Product!
@@ -9,4 +9,4 @@ const cartItemTypeDefs = gql`
   }
 `;
 
-export default cartItemTypeDefs;
+export default typeDefs;

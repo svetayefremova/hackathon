@@ -1,6 +1,6 @@
 import {IResolvers} from "graphql-tools";
 
-import Merchant from "../models/MerchantModel";
+import Merchant from "./model";
 
 const merchantResolver: IResolvers = {
   Query: {

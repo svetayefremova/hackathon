@@ -19,7 +19,7 @@ export interface IMerchant extends Document {
   };
 }
 
-const merchantSchema: Schema = new Schema({
+const schema: Schema = new Schema({
   id: {type: String, required: true, default: uuidv4},
   name: {type: String, required: true, trim: true},
   logo: String,
@@ -37,6 +37,6 @@ const merchantSchema: Schema = new Schema({
   },
 });
 
-merchantSchema.set("toObject", {getters: true, virtuals: true});
+schema.set("toObject", {getters: true, virtuals: true});
 
-export default model<IMerchant>("Merchant", merchantSchema);
+export default model<IMerchant>("Merchant", schema);

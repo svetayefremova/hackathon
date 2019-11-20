@@ -1,6 +1,6 @@
 import {gql} from "apollo-server-express";
 
-const merchantTypeDefs = gql`
+const typeDefs = gql`
   type Merchant {
     id: String!
     name: String!
@@ -28,4 +28,4 @@ const merchantTypeDefs = gql`
   }
 `;
 
-export default merchantTypeDefs;
+export default typeDefs;

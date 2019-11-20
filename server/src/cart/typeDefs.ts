@@ -5,7 +5,7 @@ const cartTypeDefs = gql`
     id: String!
     state: String!
     user: User
-    deviceToken: String
+    deviceId: String
     items: [CartItem]
     createdAt: Date!
     lastModifiedAt: Date!
@@ -14,16 +14,14 @@ const cartTypeDefs = gql`
   input AddProductToCartInput {
     productId: String!
     quantity: Int!
-    deviceToken: String
   }
 
   input RemoveItemFromCartInput {
     itemId: String!
-    deviceToken: String
   }
 
   extend type Query {
-    currentCart(deviceToken: String): Cart
+    currentCart: Cart
   }
 
   extend type Mutation {

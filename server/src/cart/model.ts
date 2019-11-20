@@ -1,8 +1,8 @@
 import {Document, model, Schema} from "mongoose";
 import uuidv4 from "uuid/v4";
 
-import CartItem, {ICartItem} from "./CartItemModel";
-import {IUser} from "./UserModel";
+import {IUser} from "../user/model";
+import CartItemSchema, {ICartItem} from "./item/model";
 
 export enum CartState {
   active = "active",
@@ -14,13 +14,13 @@ export interface ICart extends Document {
   id: string;
   state: string;
   user: IUser;
-  deviceToken: string;
+  deviceId: string; // TODO make [string], user could have more then one device
   items: [ICartItem];
   createdAt: Date;
   lastModifiedAt: Date;
 }
 
-const cartSchema: Schema = new Schema({
+const schema: Schema = new Schema({
   id: {type: String, required: true, default: uuidv4},
   state: {
     type: String,
@@ -28,13 +28,13 @@ const cartSchema: Schema = new Schema({
     enum: ["active", "anonymous", "ordered"],
     default: "anonymous",
   },
+  deviceId: String,
   user: {type: Schema.Types.ObjectId, ref: "User"},
-  deviceToken: String,
-  items: [CartItem],
+  items: [CartItemSchema],
   createdAt: {type: Date, required: true, default: Date.now},
   lastModifiedAt: {type: Date, required: true, default: Date.now},
 });
 
-cartSchema.set("toObject", {getters: true, virtuals: true});
+schema.set("toObject", {getters: true, virtuals: true});
 
-export default model<ICart>("Cart", cartSchema);
+export default model<ICart>("Cart", schema);

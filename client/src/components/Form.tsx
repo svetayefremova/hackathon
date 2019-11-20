@@ -1,9 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-export interface FormProps {}
-
-const Form: React.FC<FormProps> = ({children, ...props}) => {
+const Form: React.FC = ({children, ...props}) => {
   return <FormContainer {...props}>{children}</FormContainer>;
 };
 

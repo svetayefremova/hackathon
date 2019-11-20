@@ -1,34 +1,70 @@
 import {IResolvers} from "graphql-tools";
 import {find, remove} from "lodash";
-import {Model} from "mongoose";
 
-import {ICartItem} from "../models/CartItemModel";
-import Cart, {CartState, ICart} from "../models/CartModel";
-import Product, {IProduct} from "../models/ProductModel";
-import User, {IUser} from "../models/UserModel";
+import Product from "../product/model";
+import Cart, {CartState} from "./model";
 
-const cartResolver: IResolvers = {
+const resolvers: IResolvers = {
   Query: {
-    // TODO: refactor and make it anonymous ready
-    currentCart: async (_, {deviceToken}, context) => {
-      const user: Model<IUser> = context.getUser();
-      let cart: Model<ICart> = null;
+    currentCart: async (_, {}, context) => {
+      const user: any = context.getUser();
+      let cart: any = null;
 
       if (user) {
-        cart = await Cart.findOne({user: user._id, state: CartState.active})
-          .populate("user")
-          .populate("items.product");
-      } else if (deviceToken) {
-        cart = await Cart.findOne({
-          deviceToken,
+        const anonymousCart = await Cart.findOne({
           state: CartState.anonymous,
           user: null,
-        })
-          .populate("user")
-          .populate("items.product");
+        });
+
+        if (anonymousCart) {
+          // check if user already has active cart
+          const userCart = await Cart.findOne({
+            user: user._id,
+            state: CartState.active,
+          });
+
+          if (userCart) {
+            // merge user and anonymous cart items
+            cart = Object.assign(userCart, {
+              items: [...userCart.items, ...anonymousCart.items],
+            });
+          } else {
+            // update anonymous cart to active user cart
+            cart = Object.assign(anonymousCart, {
+              user: user._id,
+              state: CartState.active,
+            });
+          }
+
+          // add last updates to the cart
+          cart.lastModifiedAt = new Date().toISOString();
+          cart.markModified("items");
+          await cart.save();
+
+          // remove anonymous cart
+          await anonymousCart.remove();
+        } else {
+          // find active cart if there is no anonymous cart
+          cart = await Cart.findOne({
+            user: user._id,
+            state: CartState.active,
+          });
+        }
+      } else {
+        // if user is not logged in show cart anonymously
+        cart = await Cart.findOne({
+          state: CartState.anonymous,
+          user: null,
+        });
       }
 
+      // populate cart
       if (cart) {
+        await cart
+          .populate("user")
+          .populate("items.product")
+          .execPopulate();
+
         return cart.toObject();
       }
     },
@@ -36,7 +72,7 @@ const cartResolver: IResolvers = {
 
   Mutation: {
     addProductToCart: async (_, {input}, context) => {
-      const product: Model<IProduct> = await Product.findOne({
+      const product: any = await Product.findOne({
         id: input.productId,
       });
 
@@ -48,10 +84,8 @@ const cartResolver: IResolvers = {
           );
         }
 
-        const user: Model<IUser> = context.getUser();
-
-        // const user: IUser = await User.findOne({id: currentUser.id});
-        let cart: Model<ICart> = null;
+        const user: any = context.getUser();
+        let cart: any = null;
 
         // evaluate user based cart w/ active state
         if (user) {
@@ -59,19 +93,15 @@ const cartResolver: IResolvers = {
             user: user._id,
             state: CartState.active,
           });
-          // evaluate temporary and anonymous based cart using clients device token
-        } else if (input.deviceToken) {
+        } else {
           cart = await Cart.findOne({
-            deviceToken: input.deviceToken,
             state: CartState.anonymous,
             user: null,
           });
-        } else {
-          throw new Error("Please log in first to proceed.");
         }
 
         if (cart) {
-          const item: Model<ICartItem> = await find(cart.items, {
+          const item: any = await find(cart.items, {
             product: product._id,
           });
 
@@ -84,7 +114,6 @@ const cartResolver: IResolvers = {
             });
           }
 
-          // TODO: check type of Date and not string
           cart.lastModifiedAt = new Date().toISOString();
           cart.markModified("items");
 
@@ -104,30 +133,26 @@ const cartResolver: IResolvers = {
               user: user._id,
               state: CartState.active,
             });
-          } else if (input.deviceToken) {
+          } else {
             Object.assign(newCart, {
-              deviceToken: input.deviceToken,
               state: CartState.anonymous,
               user: null,
             });
-          } else {
-            throw new Error("Please log in first to proceed.");
           }
 
-          // create new cart document for current user logged in or
-          //  any kind of anonymous user with a specifc device token
           cart = await Cart.create(newCart);
         }
 
-        await product.populate("mechant").execPopulate();
+        // populate only after all logic happened
+        await product.populate("merchant").execPopulate();
 
         return product.toObject();
       }
     },
 
     removeItemFromCart: async (_, {input}, context) => {
-      const user: Model<IUser> = context.getUser();
-      let cart: Model<ICart> = null;
+      const user: any = context.getUser();
+      let cart: any = null;
 
       // evaluate user based cart w/ active state
       if (user) {
@@ -136,17 +161,16 @@ const cartResolver: IResolvers = {
           state: CartState.active,
         });
       }
-      // evaluate temporary and anonymous based cart using clients device token
-      else if (input.deviceToken) {
+      // evaluate temporary and anonymous based cart
+      else {
         cart = await Cart.findOne({
-          deviceToken: input.deviceToken,
           state: CartState.anonymous,
           user: null,
         });
       }
 
       if (cart) {
-        const item: Model<ICartItem> = await find(cart.items, {
+        const item: any = await find(cart.items, {
           id: input.itemId,
         });
 
@@ -156,23 +180,21 @@ const cartResolver: IResolvers = {
           });
 
           // remove entire cart if last element has been remove from item list
-          if (cart.items.length === 0) {
+          if (!cart.items.length) {
             await cart.remove();
+          } else {
+            // TODO: check type of Date and not string
+            cart.lastModifiedAt = new Date().toISOString();
+            cart.markModified("items");
 
-            return null;
+            await cart.save();
           }
 
-          // TODO: check type of Date and not string
-          cart.lastModifiedAt = new Date().toISOString();
-          cart.markModified("items");
-
-          await cart.save();
+          return item.id;
         }
-
-        return item.id;
       }
     },
   },
 };
 
-export default cartResolver;
+export default resolvers;

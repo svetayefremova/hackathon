@@ -1,6 +1,5 @@
 import React from "react";
 import {FlatList, Image} from "react-native";
-import {getDeviceId} from "react-native-device-info";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import styled from "styled-components";
 
@@ -16,7 +15,6 @@ const ProductItem = ({item}: {item: CartItem}) => {
   const removeItem = async () => {
     const removeItemFromCartInput = {
       itemId: item.id,
-      deviceToken: getDeviceId(),
     };
     await mutate(removeItemFromCartInput);
   };
@@ -88,7 +86,6 @@ const CartList: React.FC = () => {
 
   const currentCart: Cart = data && data.currentCart;
 
-  console.log("currentCart", currentCart);
   if (!currentCart) {
     return (
       <Container align="center" justify="center">

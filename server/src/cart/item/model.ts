@@ -1,7 +1,7 @@
 import {Document, Schema} from "mongoose";
 import uuidv4 from "uuid/v4";
 
-import {IProduct} from "./ProductModel";
+import {IProduct} from "../../product/model";
 
 export interface ICartItem extends Document {
   id: string;
@@ -10,7 +10,7 @@ export interface ICartItem extends Document {
   addedAt: Date;
 }
 
-const cartItemSchema = {
+const schema = {
   id: {type: String, required: true, default: uuidv4},
   product: {type: Schema.Types.ObjectId, ref: "Product"},
   quantity: {
@@ -23,4 +23,4 @@ const cartItemSchema = {
   addedAt: {type: Date, required: true, default: Date.now},
 };
 
-export default cartItemSchema;
+export default schema;

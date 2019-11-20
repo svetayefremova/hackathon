@@ -1,17 +1,16 @@
 import {ApolloError} from "apollo-server-express";
 import bcrypt from "bcryptjs";
 import {IResolvers} from "graphql-tools";
-import {Model} from "mongoose";
 
-import User, {IUser} from "../models/UserModel";
 import {ErrorCode} from "../types";
+import User from "./model";
 
-const userResolver: IResolvers = {
+const resolvers: IResolvers = {
   Query: {
     currentUser: (_, {}, context) => context.getUser(),
 
     users: async (_, {limit, offset}) => {
-      const users: [Model<IUser>] = await User.find()
+      const users: any = await User.find()
         .limit(limit)
         .skip(offset);
 
@@ -19,7 +18,7 @@ const userResolver: IResolvers = {
     },
 
     userById: async (_, {id}) => {
-      const user: Model<IUser> = await User.findById(id);
+      const user: any = await User.findById(id);
 
       if (user) {
         return user.toObject();
@@ -29,13 +28,13 @@ const userResolver: IResolvers = {
 
   Mutation: {
     signup: async (_, {input}, context) => {
-      let user: Model<IUser> = await User.findOne({
+      let user: any = await User.findOne({
         email: input.email,
       });
 
       if (user && user.social && user.social.facebookProvider) {
         throw new ApolloError(
-          "You already have an account using Facebook Login. To avoid creating multiple accounts, log in with Facebook",
+          "You already have an account using on Facebook. To avoid creating multiple accounts, please log in with Facebook.",
           ErrorCode.registeredWithSocial,
         );
       }
@@ -59,12 +58,9 @@ const userResolver: IResolvers = {
     logout: (_, {}, context) => context.logout(),
 
     login: async (_, {input}, context) => {
-      const {user}: {user: Model<IUser>} = await context.authenticate(
-        "graphql-local",
-        {
-          email: input.email,
-        },
-      );
+      const {user}: {user: any} = await context.authenticate("graphql-local", {
+        email: input.email,
+      });
 
       if (
         !input.password &&
@@ -73,7 +69,7 @@ const userResolver: IResolvers = {
         user.social.facebookProvider
       ) {
         throw new ApolloError(
-          "You are using Facebook to login. Please, continue login with Facebook",
+          "You are using Facebook to login. Please continue to log in with Facebook.",
           ErrorCode.registeredWithSocial,
         );
       }
@@ -84,7 +80,7 @@ const userResolver: IResolvers = {
       );
 
       if (!isValidPassword) {
-        throw new Error("Email and password don't match");
+        throw new Error("Email and password don't match.");
       }
 
       context.login(user);
@@ -97,9 +93,7 @@ const userResolver: IResolvers = {
         access_token: accessToken,
       };
 
-      const {user}: {user: Model<IUser>} = await context.authenticate(
-        "facebook-token",
-      );
+      const {user}: {user: any} = await context.authenticate("facebook-token");
 
       context.login(user);
       return user.toObject();
@@ -107,4 +101,4 @@ const userResolver: IResolvers = {
   },
 };
 
-export default userResolver;
+export default resolvers;

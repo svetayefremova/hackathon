@@ -39,14 +39,13 @@ export const PRODUCTS = gql`
 `;
 
 export const CURRENT_CART = gql`
-  query currentCart($deviceToken: String) {
-    currentCart(deviceToken: $deviceToken) {
+  query currentCart {
+    currentCart {
       id
       state
       user {
         ...UserDetails
       }
-      deviceToken
       items {
         id
         quantity

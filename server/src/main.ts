@@ -7,22 +7,17 @@ import {buildContext} from "graphql-passport";
 import {merge} from "lodash";
 import Mongoose from "mongoose";
 
-import auth from "./middlewares/auth";
+import auth from "./authentication/auth";
 import seed from "./seed";
 
-import User from "./models/UserModel";
+import cart from "./cart";
+import cartItem from "./cart/item";
+import merchant from "./merchant";
+import product from "./product";
+import user from "./user";
+import User from "./user/model";
 
-import cartResolver from "./resolvers/CartResolver";
-import merchantResolver from "./resolvers/MerchantResolver";
-import productResolver from "./resolvers/ProductResolver";
-import userResolver from "./resolvers/UserResolver";
-
-import cartItemTypeDefs from "./schema/CartItemSchema";
-import cartTypeDefs from "./schema/CartSchema";
-import merchantTypeDefs from "./schema/MerchantSchema";
-import productTypeDefs from "./schema/ProductSchema";
-import rootTypeDefs from "./schema/RootSchema";
-import userTypeDefs from "./schema/UserSchema";
+import rootTypeDefs from "./rootTypeDefs";
 
 dotenv.config();
 
@@ -50,18 +45,18 @@ const customScalarResolver = {
 const server = new ApolloServer({
   typeDefs: [
     rootTypeDefs,
-    productTypeDefs,
-    merchantTypeDefs,
-    cartItemTypeDefs,
-    cartTypeDefs,
-    userTypeDefs,
+    product.typeDefs,
+    merchant.typeDefs,
+    cartItem.typeDefs,
+    cart.typeDefs,
+    user.typeDefs,
   ],
   resolvers: merge(
     customScalarResolver,
-    merchantResolver,
-    productResolver,
-    cartResolver,
-    userResolver,
+    merchant.resolvers,
+    product.resolvers,
+    cart.resolvers,
+    user.resolvers,
   ),
   context: ({req, res}) => buildContext({req, res, User}),
 });

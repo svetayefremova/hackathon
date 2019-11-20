@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
 import moment from "moment";
 
-import Merchant from "./models/MerchantModel";
-import Product from "./models/ProductModel";
+import Merchant from "./merchant/model";
+import Product from "./product/model";
 
 import {merchants} from "./mocks/mockMerchantData";
 

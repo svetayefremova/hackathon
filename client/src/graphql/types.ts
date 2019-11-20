@@ -62,7 +62,7 @@ export interface Cart {
   id: string;
   state: string;
   user: User;
-  deviceToken: string;
+  deviceId: string;
   items: [CartItem];
   createdAt: Date;
   lastModifiedAt: Date;
@@ -71,10 +71,8 @@ export interface Cart {
 export interface AddProductToCartInput {
   productId: string;
   quantity: number;
-  deviceToken?: string;
 }
 
 export interface RemoveItemFromCartInput {
   itemId: string;
-  deviceToken?: string;
 }

@@ -1,8 +1,8 @@
 import {IResolvers} from "graphql-tools";
 
-import Product from "../models/ProductModel";
+import Product from "./model";
 
-const productResolver: IResolvers = {
+const resolvers: IResolvers = {
   Query: {
     productById: async (_, {id}) => {
       const product: any = await Product.findById(id);
@@ -25,4 +25,4 @@ const productResolver: IResolvers = {
   },
 };
 
-export default productResolver;
+export default resolvers;

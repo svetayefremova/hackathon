@@ -16,7 +16,7 @@ export interface IUser extends Document {
   lastModifiedAt: Date;
 }
 
-const userSchema: Schema = new Schema({
+const schema: Schema = new Schema({
   id: {type: String, required: true, default: uuidv4},
   name: String,
   email: {type: String, unique: true, required: true},
@@ -31,6 +31,6 @@ const userSchema: Schema = new Schema({
   lastModifiedAt: {type: Date, required: true, default: Date.now},
 });
 
-userSchema.set("toObject", {getters: true, virtuals: true});
+schema.set("toObject", {getters: true, virtuals: true});
 
-export default model<IUser>("User", userSchema);
+export default model<IUser>("User", schema);

@@ -1,6 +1,5 @@
 import React from "react";
 import {FlatList, ImageBackground, View} from "react-native";
-import {getDeviceId} from "react-native-device-info";
 import LinearGradient from "react-native-linear-gradient";
 import styled from "styled-components";
 
@@ -26,7 +25,6 @@ const ProductItem = ({item, onAddToCart}: ProductItemProps) => {
     const addProductToCartinput = {
       productId: item.id,
       quantity: item.quantity,
-      deviceToken: getDeviceId(),
     };
     const {
       data: {addProductToCart},

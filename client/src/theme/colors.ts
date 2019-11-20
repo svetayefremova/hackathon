@@ -6,7 +6,7 @@ export default {
   primaryOpacity: "rgba(62,185,174,0.24)",
   primaryDark: "rgba(36,111,104, 1)", // #246F68
 
-  secondary: "green",
+  secondary: "#b93eb2",
 
   danger: "#dc555b",
 

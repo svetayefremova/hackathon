@@ -1,7 +1,7 @@
 import {Document, model, Schema} from "mongoose";
 import uuidv4 from "uuid/v4";
 
-import {IMerchant} from "./MerchantModel";
+import {IMerchant} from "../merchant/model";
 
 export interface IProduct extends Document {
   id: string;
@@ -16,7 +16,7 @@ export interface IProduct extends Document {
   merchant: IMerchant;
 }
 
-const productSchema: Schema = new Schema({
+const schema: Schema = new Schema({
   id: {type: String, required: true, default: uuidv4},
   name: {type: String, required: true, trim: true},
   belongsToBrand: {type: Number, required: true},
@@ -37,6 +37,6 @@ const productSchema: Schema = new Schema({
   },
 });
 
-productSchema.set("toObject", {getters: true, virtuals: true});
+schema.set("toObject", {getters: true, virtuals: true});
 
-export default model<IProduct>("Product", productSchema);
+export default model<IProduct>("Product", schema);
