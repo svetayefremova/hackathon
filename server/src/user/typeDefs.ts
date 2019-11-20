@@ -22,16 +22,18 @@ const typeDefs = gql`
 
   input LoginInput {
     email: String!
-    password: String
+    password: String!
+    deviceToken: String!
   }
 
   input AuthInput {
-    accessToken: String
+    accessToken: String!
+    deviceToken: String!
   }
 
   input SignupInput {
     email: String!
-    password: String
+    password: String!
     name: String
   }
 

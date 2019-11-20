@@ -32,7 +32,7 @@ const LoginForm: React.FC<LoginFormProps> = ({onLogin, disabled, error}) => {
         resetFields();
       })
       .catch(e => {
-        console.error("err", e);
+        console.log("err", e);
       });
   };
 

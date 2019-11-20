@@ -30,7 +30,6 @@ const Login: React.FC<NavigationStackScreenProps> = props => {
     const {
       data: {login},
     } = await mutate(email, password);
-
     if (login) {
       props.navigation.navigate("Home");
     } else {

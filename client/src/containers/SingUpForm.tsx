@@ -42,7 +42,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({onSubmit, disabled, error}) => {
         resetFields();
       })
       .catch(e => {
-        console.error("err", e);
+        console.log("err", e);
       });
   };
 

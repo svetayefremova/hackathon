@@ -1,5 +1,6 @@
 import React from "react";
 import {FlatList, Image} from "react-native";
+import {getUniqueId} from "react-native-device-info";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import styled from "styled-components";
 
@@ -15,7 +16,13 @@ const ProductItem = ({item}: {item: CartItem}) => {
   const removeItem = async () => {
     const removeItemFromCartInput = {
       itemId: item.id,
+      deviceToken: getUniqueId(),
     };
+
+    if (error) {
+      alert(error.message);
+    }
+
     await mutate(removeItemFromCartInput);
   };
 
@@ -60,7 +67,7 @@ const ProductItem = ({item}: {item: CartItem}) => {
 };
 
 const CartList: React.FC = () => {
-  const {loading, error, data} = useCurrentCartQuery();
+  const {data, loading, error} = useCurrentCartQuery();
 
   const keyExtractor = item => item.id;
 

@@ -14,7 +14,7 @@ export interface ICart extends Document {
   id: string;
   state: string;
   user: IUser;
-  deviceId: string; // TODO make [string], user could have more then one device
+  deviceToken: string;
   items: [ICartItem];
   createdAt: Date;
   lastModifiedAt: Date;
@@ -28,8 +28,8 @@ const schema: Schema = new Schema({
     enum: ["active", "anonymous", "ordered"],
     default: "anonymous",
   },
-  deviceId: String,
   user: {type: Schema.Types.ObjectId, ref: "User"},
+  deviceToken: String,
   items: [CartItemSchema],
   createdAt: {type: Date, required: true, default: Date.now},
   lastModifiedAt: {type: Date, required: true, default: Date.now},

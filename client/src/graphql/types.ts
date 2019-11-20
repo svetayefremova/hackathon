@@ -62,7 +62,7 @@ export interface Cart {
   id: string;
   state: string;
   user: User;
-  deviceId: string;
+  deviceToken: string;
   items: [CartItem];
   createdAt: Date;
   lastModifiedAt: Date;

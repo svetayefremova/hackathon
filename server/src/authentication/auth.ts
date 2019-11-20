@@ -2,7 +2,6 @@ import dotenv from "dotenv";
 import express from "express";
 import session from "express-session";
 import {GraphQLLocalStrategy} from "graphql-passport";
-import moment from "moment";
 import passport from "passport";
 import FacebookTokenStrategy from "passport-facebook-token";
 import uuid from "uuid/v4";
@@ -37,10 +36,10 @@ const FacebookTokenStrategyCallback = async (
   profile,
   done,
 ) => {
-  // TODO add logic when user have more than 1 account
+  // TODO: add logic when user have more then one facebook account or registered only with a phone number
 
-  // Check if user with current email registered without social
-  // If yes - Merge Facebook Login with existing user
+  // check if user with current email registered without social registration;
+  // if yes, merge Facebook login with existing user
   await User.findOneAndUpdate(
     {
       email: profile.emails[0].value,
@@ -54,17 +53,17 @@ const FacebookTokenStrategyCallback = async (
             token: accessToken,
           },
         },
-        lastModifiedAt: moment().toISOString(),
+        lastModifiedAt: new Date().toISOString(),
       },
     },
   );
 
-  // Check if user is already connected with facebook account
+  // check if user is already connected with facebook account
   let registeredUser: any = await User.findOne({
     "social.facebookProvider.id": profile.id,
   });
 
-  // Register new user with social
+  // register new user using social provider
   if (!registeredUser) {
     registeredUser = await User.create({
       name: profile.displayName,
