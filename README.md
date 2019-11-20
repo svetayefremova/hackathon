@@ -11,7 +11,7 @@ Simple shopping application created with React Native and Apollo/GraphQl
 
 ## Requirements
 
-You have to register the application  at developers.facebook.com and get **App ID** and **App Secret**. This is important for login with facebook. In you App settings don't forget to add android platform for your application.
+You have to register the application  at [developers.facebook.com](https://developers.facebook.com/) and get **App ID** and **App Secret**. This is important for login with facebook. Don't forget to add android platform in you facebook app settings.
 
 ### Configuration
 
@@ -65,22 +65,22 @@ You should update also you android files with facbook APP_ID and APP_key manuall
 Install all extra dependencies for ios
 
 ```bash
-$ cd ios/ && pod install
+$ client cd ios/ && pod install
 ```
 
 
 ### Usage
 
 ```bash
-$ yarn ios
-$ yarn android
+$ client yarn ios
+$ client yarn android
 ```
 If you have issues to build ios, you should change XCode settings
 *File -> Project Settings (or WorkSpace Settings) -> Build System -> Legacy Build System*
 
 ## License
 
-You can check out the full license [here](https://github.com/svetayefremova/vanhack-bonsai/LICENSE)
+You can check out the full license [here](https://github.com/svetayefremova/vanhack-bonsai/blob/master/LICENCE.md)
 
 This project is licensed under the terms of the **MIT** license.
 
