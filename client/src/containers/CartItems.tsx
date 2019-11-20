@@ -16,7 +16,7 @@ const ProductItem = ({item}: {item: CartItem}) => {
   const removeItem = async () => {
     const removeItemFromCartInput = {
       itemId: item.id,
-      deviceToken: getDeviceId()
+      deviceToken: getDeviceId(),
     };
     await mutate(removeItemFromCartInput);
   };
@@ -36,9 +36,15 @@ const ProductItem = ({item}: {item: CartItem}) => {
           </Text>
           <Text padding={0}>Quantity: {item.quantity}</Text>
         </Container>
-        <Text padding={0} note>Size: {item.product.size}</Text>
-        <Text padding={0} note>Color: {item.product.color}</Text>
-        <Text padding={0} note>Price: {item.product.price}</Text>
+        <Text padding={0} note>
+          Size: {item.product.size}
+        </Text>
+        <Text padding={0} note>
+          Color: {item.product.color}
+        </Text>
+        <Text padding={0} note>
+          Price: {item.product.price}
+        </Text>
       </DetailsContainer>
 
       <Icon
@@ -92,7 +98,7 @@ const CartList: React.FC = () => {
   }
 
   return (
-    <Container >
+    <Container>
       <FlatList
         data={currentCart.items}
         renderItem={renderItem}

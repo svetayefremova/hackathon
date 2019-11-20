@@ -17,7 +17,7 @@ const DrawerContent = props => {
   const logout = async () => {
     props.navigation.navigate("Welcome");
     await mutate();
-    createClient.cache.reset()
+    createClient.cache.reset();
   };
 
   const currentUser: User = data && data.currentUser;

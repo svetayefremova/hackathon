@@ -20,9 +20,9 @@ const cartResolver: IResolvers = {
           .populate("items.product");
       } else if (deviceToken) {
         cart = await Cart.findOne({
-          deviceToken: deviceToken,
+          deviceToken,
           state: CartState.anonymous,
-          user: null
+          user: null,
         })
           .populate("user")
           .populate("items.product");
@@ -64,7 +64,7 @@ const cartResolver: IResolvers = {
           cart = await Cart.findOne({
             deviceToken: input.deviceToken,
             state: CartState.anonymous,
-            user: null
+            user: null,
           });
         } else {
           throw new Error("Please log in first to proceed.");
@@ -108,7 +108,7 @@ const cartResolver: IResolvers = {
             Object.assign(newCart, {
               deviceToken: input.deviceToken,
               state: CartState.anonymous,
-              user: null
+              user: null,
             });
           } else {
             throw new Error("Please log in first to proceed.");
@@ -141,7 +141,7 @@ const cartResolver: IResolvers = {
         cart = await Cart.findOne({
           deviceToken: input.deviceToken,
           state: CartState.anonymous,
-          user: null
+          user: null,
         });
       }
 

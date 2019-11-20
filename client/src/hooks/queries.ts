@@ -23,9 +23,7 @@ export const useProductsQuery = () =>
     variables: {limit: 10, offset: 0},
   });
 
-export const useCurrentCartQuery = () => useQuery(
-  CURRENT_CART, 
-  {
-    variables: {deviceToken: getDeviceId()}
-  }
-);
+export const useCurrentCartQuery = () =>
+  useQuery(CURRENT_CART, {
+    variables: {deviceToken: getDeviceId()},
+  });
