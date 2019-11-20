@@ -16,15 +16,15 @@ This application currently supports the following features:
 To use this application, you have to fulfill following requirements:
 
 * Set up and run a NodeJS environment, for example by [downloading](https://nodejs.org/en/) and installing the binary file, or by using the official [Docker image](https://hub.docker.com/_/node/).
-<br>
+
 * Set up and run a MongoDB database, for example by [downloading](https://www.mongodb.com/download-center/community) and installing the binary file, or by using the official [Docker image](https://hub.docker.com/_/mongo).
-<br>
+
 * You also have to register a new application at [developers.facebook.com](https://developers.facebook.com/) and get the **App ID** as well as the **App Secret**. This is important if you want to use Facebook Login. Please don't forget to also add iOS and Android platform in your Facebook application settings while you register.
 
 ## Installation
 
 1. Set up and run MongoDB on standard host and port (`localhost:27017`) or on any other environment settings you prefer.
-<br>
+
 2. On your NodeJS environment, please navigate to the `/server` folder and install all NPM packages by using Yarn or NPM:
 
 ```bash
@@ -123,7 +123,7 @@ $ yarn android
 $ npm android
 ```
 
-_**Please note:** If you may encounter issues while building the iOS version, you should probably change your XCode settings to `File -> Project Settings (or WorkSpace Settings) -> Build System -> Legacy Build System`_
+_**Please note:** If you may encounter issues while building the iOS version, you should probably change your Xcode settings to `File -> Project Settings (or WorkSpace Settings) -> Build System -> Legacy Build System`_
 
 ## License
 
