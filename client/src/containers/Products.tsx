@@ -1,6 +1,6 @@
 import React from "react";
 import {FlatList, ImageBackground, View} from "react-native";
-import {getUniqueId} from "react-native-device-info";
+import {getDeviceId} from "react-native-device-info";
 import LinearGradient from "react-native-linear-gradient";
 import styled from "styled-components";
 
@@ -26,12 +26,11 @@ const ProductItem = ({item, onAddToCart}: ProductItemProps) => {
     const addProductToCartinput = {
       productId: item.id,
       quantity: item.quantity,
-      deviceToken: getUniqueId(),
+      deviceToken: getDeviceId(),
     };
     const {
       data: {addProductToCart},
     } = await mutate(addProductToCartinput);
-    console.log("addProductToCart", addProductToCart);
     if (addProductToCart) {
       onAddToCart();
     } else {
@@ -40,7 +39,7 @@ const ProductItem = ({item, onAddToCart}: ProductItemProps) => {
   };
 
   return (
-    <Container>
+    <ProductContainer>
       <ImageBackground
         style={{width: "100%", height: 258}}
         imageStyle={{borderTopLeftRadius: 8, borderTopRightRadius: 8}}
@@ -74,7 +73,7 @@ const ProductItem = ({item, onAddToCart}: ProductItemProps) => {
           disabled={loading || (item && !item.quantity)}
         />
       </DetailsContainer>
-    </Container>
+    </ProductContainer>
   );
 };
 
@@ -131,7 +130,7 @@ const ProductsList = ({onAddToCart}: ProductListProps) => {
   }
 };
 
-const Container = styled.TouchableOpacity`
+const ProductContainer = styled.TouchableOpacity`
   background-color: ${colors.background};
   margin: 8px;
   flex: 1;

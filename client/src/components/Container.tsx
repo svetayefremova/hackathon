@@ -16,6 +16,7 @@ const Container: React.FC<ContainerProps> = ({
   direction = "column",
   align = "stretch",
   justify = "flex-start",
+  shadow = false,
   ...props
 }) => {
   if (center) {

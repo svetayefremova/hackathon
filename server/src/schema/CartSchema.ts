@@ -23,7 +23,7 @@ const cartTypeDefs = gql`
   }
 
   extend type Query {
-    currentCart: Cart
+    currentCart(deviceToken: String): Cart
   }
 
   extend type Mutation {

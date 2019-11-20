@@ -83,7 +83,7 @@ const Title = styled.Text`
   color: ${props =>
     props.light ? colors.lightFontColor : colors.darkFontColor};
   text-align: center;
-  font-size: ${fonts.fontSizeH3};
+  font-size: ${fonts.fontSizeH4};
   text-align: ${props => props.align};
   padding: ${props => props.padding};
 `;

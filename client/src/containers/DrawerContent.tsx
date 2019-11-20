@@ -2,6 +2,7 @@ import React from "react";
 import {ScrollView, View} from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 import styled from "styled-components";
+import createClient from "../createClient";
 
 import {Container, Layout, Text} from "../components";
 import {User} from "../graphql/types";
@@ -16,6 +17,7 @@ const DrawerContent = props => {
   const logout = async () => {
     props.navigation.navigate("Welcome");
     await mutate();
+    createClient.cache.reset()
   };
 
   const currentUser: User = data && data.currentUser;

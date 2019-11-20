@@ -39,8 +39,8 @@ export const PRODUCTS = gql`
 `;
 
 export const CURRENT_CART = gql`
-  query currentCart {
-    currentCart {
+  query currentCart($deviceToken: String) {
+    currentCart(deviceToken: $deviceToken) {
       id
       state
       user {

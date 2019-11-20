@@ -1,4 +1,5 @@
 import {useQuery} from "@apollo/react-hooks";
+import {getDeviceId} from "react-native-device-info";
 
 import {
   CURRENT_CART,
@@ -22,4 +23,9 @@ export const useProductsQuery = () =>
     variables: {limit: 10, offset: 0},
   });
 
-export const useCurrentCartQuery = () => useQuery(CURRENT_CART);
+export const useCurrentCartQuery = () => useQuery(
+  CURRENT_CART, 
+  {
+    variables: {deviceToken: getDeviceId()}
+  }
+);

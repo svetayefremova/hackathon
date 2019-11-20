@@ -10,7 +10,7 @@ import User, {IUser} from "../models/UserModel";
 const cartResolver: IResolvers = {
   Query: {
     // TODO: refactor and make it anonymous ready
-    currentCart: async (_, {input}, context) => {
+    currentCart: async (_, {deviceToken}, context) => {
       const user: Model<IUser> = context.getUser();
       let cart: Model<ICart> = null;
 
@@ -18,10 +18,11 @@ const cartResolver: IResolvers = {
         cart = await Cart.findOne({user: user._id, state: CartState.active})
           .populate("user")
           .populate("items.product");
-      } else if (input.deviceToken) {
+      } else if (deviceToken) {
         cart = await Cart.findOne({
-          deviceToken: input.deviceToken,
+          deviceToken: deviceToken,
           state: CartState.anonymous,
+          user: null
         })
           .populate("user")
           .populate("items.product");
@@ -63,6 +64,7 @@ const cartResolver: IResolvers = {
           cart = await Cart.findOne({
             deviceToken: input.deviceToken,
             state: CartState.anonymous,
+            user: null
           });
         } else {
           throw new Error("Please log in first to proceed.");
@@ -106,6 +108,7 @@ const cartResolver: IResolvers = {
             Object.assign(newCart, {
               deviceToken: input.deviceToken,
               state: CartState.anonymous,
+              user: null
             });
           } else {
             throw new Error("Please log in first to proceed.");
@@ -138,6 +141,7 @@ const cartResolver: IResolvers = {
         cart = await Cart.findOne({
           deviceToken: input.deviceToken,
           state: CartState.anonymous,
+          user: null
         });
       }
 

@@ -1,5 +1,6 @@
 import React from "react";
-import {FlatList, Image, View} from "react-native";
+import {FlatList, Image} from "react-native";
+import {getDeviceId} from "react-native-device-info";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import styled from "styled-components";
 
@@ -15,6 +16,7 @@ const ProductItem = ({item}: {item: CartItem}) => {
   const removeItem = async () => {
     const removeItemFromCartInput = {
       itemId: item.id,
+      deviceToken: getDeviceId()
     };
     await mutate(removeItemFromCartInput);
   };
@@ -34,9 +36,9 @@ const ProductItem = ({item}: {item: CartItem}) => {
           </Text>
           <Text padding={0}>Quantity: {item.quantity}</Text>
         </Container>
-        <Text padding={0}>Size: {item.product.size}</Text>
-        <Text padding={0}>Color: {item.product.color}</Text>
-        <Text padding={0}>Price: {item.product.price}</Text>
+        <Text padding={0} note>Size: {item.product.size}</Text>
+        <Text padding={0} note>Color: {item.product.color}</Text>
+        <Text padding={0} note>Price: {item.product.price}</Text>
       </DetailsContainer>
 
       <Icon
@@ -59,7 +61,11 @@ const CartList: React.FC = () => {
   const keyExtractor = item => item.id;
 
   const renderItem = ({item}: {item: CartItem}) => {
-    return <ProductItem item={item} />;
+    return (
+      <ItemContainer>
+        <ProductItem item={item} />
+      </ItemContainer>
+    );
   };
 
   if (loading) {
@@ -86,12 +92,12 @@ const CartList: React.FC = () => {
   }
 
   return (
-    <Container>
+    <Container >
       <FlatList
         data={currentCart.items}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
-        numColumns={1}
+        initialNumToRender={10}
       />
     </Container>
   );
@@ -101,6 +107,7 @@ const Wrapper = styled.View`
   border-radius: 8px;
   border-width: 1px;
   border-color: ${colors.darkFontColor};
+  border-style: dashed;
   margin: 8px;
   padding: 4px 0;
   flex: 1;
@@ -117,6 +124,10 @@ const ImageContainer = styled.View`
   align-items: center;
   justify-content: center;
   padding: 8px;
+`;
+
+const ItemContainer = styled.View`
+  height: 150;
 `;
 
 export default CartList;
