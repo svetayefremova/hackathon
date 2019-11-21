@@ -125,6 +125,10 @@ $ npm android
 
 _**Please note:** If you may encounter issues while building the iOS version, you should probably change your Xcode settings to `File -> Project Settings (or WorkSpace Settings) -> Build System -> Legacy Build System`_
 
+## Documentation
+
+Please find the documentation of this project [here](https://github.com/svetayefremova/vanhack-bonsai/blob/master/DOCUMENTATION.md).
+
 ## License
 
 This project is licensed under the terms of the **MIT** license.
