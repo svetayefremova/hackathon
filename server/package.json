@@ -7,7 +7,8 @@
     "start": "yarn build && node ./build/main.js",
     "dev": "backpack",
     "build": "backpack build",
-    "lint": "prettier --write 'src/**/*.{ts,tsx}' && tslint --fix --project tsconfig.json"
+    "lint": "prettier --write 'src/**/*.{ts,tsx}' && tslint --fix --project tsconfig.json",
+    "database": "/Users/yes/Projects/Database/mongodb/bin/mongod --dbpath /Users/yes/Projects/Database/db/"
   },
   "author": "Svitlana Yefremova <yefremovasveta@gmail.com>",
   "dependencies": {
