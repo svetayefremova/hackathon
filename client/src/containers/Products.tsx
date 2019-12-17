@@ -1,86 +1,13 @@
 import React from "react";
-import {FlatList, ImageBackground, View} from "react-native";
-import {getUniqueId} from "react-native-device-info";
-import LinearGradient from "react-native-linear-gradient";
-import styled from "styled-components";
+import {FlatList} from "react-native";
+import {NavigationStackScreenProps} from "react-navigation-stack";
 
-import {Button, Layout, Spinner, Text} from "../components";
+import {Layout, Spinner} from "../components";
+import {ProductItem} from "../containers";
 import {Product} from "../graphql/types";
-import {useAddProductToCartMutation} from "../hooks/mutations";
 import {useProductsQuery} from "../hooks/queries";
-import {colors} from "../theme";
 
-export interface ProductItemProps {
-  item: Product;
-  onAddToCart: () => void;
-}
-
-export interface ProductListProps {
-  onAddToCart: () => void;
-}
-
-const ProductItem = ({item, onAddToCart}: ProductItemProps) => {
-  const [mutate, loading, error] = useAddProductToCartMutation();
-
-  const addToCart = async () => {
-    const addProductToCartinput = {
-      productId: item.id,
-      quantity: item.quantity,
-      deviceToken: getUniqueId(),
-    };
-    const {
-      data: {addProductToCart},
-    } = await mutate(addProductToCartinput);
-
-    if (error) {
-      alert(error.message);
-    }
-
-    if (addProductToCart) {
-      onAddToCart();
-    }
-  };
-
-  return (
-    <ProductContainer>
-      <ImageBackground
-        style={{width: "100%", height: 258}}
-        imageStyle={{borderTopLeftRadius: 8, borderTopRightRadius: 8}}
-        source={{uri: item.image}}>
-        <LinearGradient
-          colors={["transparent", colors.darkFontColor]}
-          style={{flex: 1, zIndex: 1}}
-          locations={[0.6, 1]}>
-          <TitleContainer>
-            <Text title light>
-              {item && item.name}
-            </Text>
-          </TitleContainer>
-        </LinearGradient>
-      </ImageBackground>
-      <Text note numberOfLines={4}>
-        Description: {item && item.description}
-      </Text>
-      <DetailsContainer>
-        <View>
-          <Text padding={0}>Size: {item && item.size}</Text>
-          <Text padding={0}>Color: {item && item.color}</Text>
-          <Text padding={0}>Price: {item && item.price}</Text>
-          <Text padding={0}>Quantity: {item && item.quantity}</Text>
-        </View>
-        <Button
-          title="Buy"
-          small
-          onPress={addToCart}
-          isDisabledStyle={item && !item.quantity}
-          disabled={loading || (item && !item.quantity)}
-        />
-      </DetailsContainer>
-    </ProductContainer>
-  );
-};
-
-const ProductsList = ({onAddToCart}: ProductListProps) => {
+const ProductsList = props => {
   const {loading, error, data, fetchMore} = useProductsQuery();
 
   const keyExtractor = item => item.id;
@@ -104,7 +31,7 @@ const ProductsList = ({onAddToCart}: ProductListProps) => {
   };
 
   const renderItem = ({item}: {item: Product}) => {
-    return <ProductItem item={item} onAddToCart={onAddToCart} />;
+    return <ProductItem item={item} />;
   };
 
   if (loading) {
@@ -132,29 +59,5 @@ const ProductsList = ({onAddToCart}: ProductListProps) => {
     console.error(error);
   }
 };
-
-const ProductContainer = styled.TouchableOpacity`
-  background-color: ${colors.background};
-  margin: 8px;
-  flex: 1;
-  height: 400;
-  border-radius: 8px;
-  justify-content: space-between;
-`;
-
-const DetailsContainer = styled.View`
-  flex: 1;
-  padding: 8px;
-  align-items: flex-end;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-const TitleContainer = styled.View`
-  flex: 1;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 4px;
-`;
 
 export default ProductsList;

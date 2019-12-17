@@ -38,6 +38,15 @@ export const PRODUCTS = gql`
   ${fragments.productDetails}
 `;
 
+export const PRODUCT_BY_ID = gql`
+  query productById($id: ID!) {
+    productById(id: $id) {
+      ...ProductDetails
+    }
+  }
+  ${fragments.productDetails}
+`;
+
 export const CURRENT_CART = gql`
   query currentCart($deviceToken: String) {
     currentCart(deviceToken: $deviceToken) {

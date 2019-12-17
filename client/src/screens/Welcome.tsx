@@ -19,7 +19,7 @@ const Welcome: React.FC<NavigationStackScreenProps> = props => {
             Welcome to Vanhack-Bonsai
           </Text>
           <LoginWithFacebookButton
-            onFinishLogin={() => props.navigation.navigate("Home")}
+            onFinishLogin={() => props.navigation.navigate("Main")}
           />
           <Text align="center" padding={28}>
             ─── OR ───
@@ -43,7 +43,7 @@ const Welcome: React.FC<NavigationStackScreenProps> = props => {
       <Button
         title="Skip Login"
         color={colors.primary}
-        onPress={() => props.navigation.navigate("Home")}
+        onPress={() => props.navigation.navigate("Main")}
         reverse
       />
     </Layout>

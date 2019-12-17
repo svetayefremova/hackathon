@@ -33,7 +33,7 @@ const SignUp: React.FC<NavigationStackScreenProps> = props => {
       data: {signup},
     } = await mutate(input);
     if (signup) {
-      props.navigation.navigate("Home");
+      props.navigation.navigate("Main");
     } else {
       alert("Ooops... something went wrong...");
     }
@@ -54,7 +54,7 @@ const SignUp: React.FC<NavigationStackScreenProps> = props => {
                   products and benefits
                 </Text>
                 <LoginWithFacebookButton
-                  onFinishLogin={() => props.navigation.navigate("Home")}
+                  onFinishLogin={() => props.navigation.navigate("Main")}
                   title="Log in with Facebook"
                 />
               </Container>
@@ -76,7 +76,7 @@ const SignUp: React.FC<NavigationStackScreenProps> = props => {
                 {error.message}
               </Text>
               <LoginWithFacebookButton
-                onFinishLogin={() => props.navigation.navigate("Home")}
+                onFinishLogin={() => props.navigation.navigate("Main")}
               />
               <Button
                 color={colors.primary}

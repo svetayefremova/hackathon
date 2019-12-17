@@ -6,19 +6,15 @@ import {Layout} from "../components";
 import {HeaderLeftButton, HeaderRightButton, Products} from "../containers";
 import {images} from "../theme";
 
-const Home: React.FC<NavigationStackScreenProps> = props => {
-  const addToCart = () => {
-    props.navigation.navigate("Cart");
-  };
-
+const Dashboard: React.FC<NavigationStackScreenProps> = props => {
   return (
     <Layout>
-      <Products onAddToCart={addToCart} />
+      <Products />
     </Layout>
   );
 };
 
-Home.navigationOptions = screenProps => ({
+Dashboard.navigationOptions = screenProps => ({
   headerTitle: () => (
     <Image source={images.logo} resizeMode="contain" style={{height: 28}} />
   ),
@@ -26,4 +22,4 @@ Home.navigationOptions = screenProps => ({
   headerLeft: () => <HeaderLeftButton {...screenProps} />,
 });
 
-export default Home;
+export default Dashboard;
