@@ -1,11 +1,10 @@
 import React from "react";
 import {FlatList} from "react-native";
-import {NavigationStackScreenProps} from "react-navigation-stack";
 
-import {Layout, Spinner} from "../components";
-import {ProductItem} from "../containers";
+import {Layout, Spinner, Text} from "../components";
 import {Product} from "../graphql/types";
 import {useProductsQuery} from "../hooks/queries";
+import ProductItem from "./ProductItem";
 
 const ProductsList = props => {
   const {loading, error, data, fetchMore} = useProductsQuery();
@@ -38,6 +37,14 @@ const ProductsList = props => {
     return <Spinner center />;
   }
 
+  if (error) {
+    return (
+      <Text danger align="center">
+        {error.message}
+      </Text>
+    );
+  }
+
   const products: [Product] = data && data.products;
 
   if (products) {
@@ -55,8 +62,6 @@ const ProductsList = props => {
         />
       </Layout>
     );
-  } else {
-    console.error(error);
   }
 };
 

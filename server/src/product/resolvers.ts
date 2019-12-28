@@ -5,7 +5,7 @@ import Product from "./model";
 const resolvers: IResolvers = {
   Query: {
     productById: async (_, {id}) => {
-      const product: any = await Product.findById(id);
+      const product: any = await Product.findOne({ id });
 
       if (product) {
         return product.toObject();

@@ -6,4 +6,5 @@ export {default as ProductItem} from "./ProductItem";
 export {default as HeaderRightButton} from "./HeaderRightButton";
 export {default as HeaderLeftButton} from "./HeaderLeftButton";
 export {default as DrawerContent} from "./DrawerContent";
-export {default as CartItems} from "./CartItems";
+export {default as CartList} from "./CartList";
+export {default as ProductFullDescription} from "./ProductFullDescription";

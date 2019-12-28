@@ -2,7 +2,7 @@ import {gql} from "apollo-server-express";
 
 const typeDefs = gql`
   type Product {
-    id: String!
+    id: ID!
     name: String!
     belongsToBrand: Int!
     description: String
@@ -15,7 +15,7 @@ const typeDefs = gql`
   }
 
   extend type Query {
-    productById(id: String!): Product
+    productById(id: ID!): Product
     products(offset: Int, limit: Int): [Product]
   }
 `;

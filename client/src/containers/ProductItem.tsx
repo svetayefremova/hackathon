@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef, useState} from "react";
 import {ImageBackground, View} from "react-native";
 import {getUniqueId} from "react-native-device-info";
 import LinearGradient from "react-native-linear-gradient";
@@ -15,21 +15,23 @@ export interface ProductItemProps {
   item: Product;
 }
 
-const ProductItem = ({
+const ProductItem: React.FC<ProductItemProps & NavigationStackScreenProps> = ({
   item,
   ...props
-}: ProductItemProps & NavigationStackScreenProps) => {
+}) => {
   const [mutate, loading, error] = useAddProductToCartMutation();
+  let imageRef = useRef();
+  const [imageSize, setImageSize] = useState({width: "100%", height: 258});
 
   const addToCart = async () => {
-    const addProductToCartinput = {
+    const addProductToCartInput = {
       productId: item.id,
       quantity: item.quantity,
       deviceToken: getUniqueId(),
     };
     const {
       data: {addProductToCart},
-    } = await mutate(addProductToCartinput);
+    } = await mutate(addProductToCartInput);
 
     if (error) {
       alert(error.message);
@@ -40,16 +42,43 @@ const ProductItem = ({
     }
   };
 
-  const onNavigateToProduct = () => {
-    props.navigation.navigate("Product", {id: item.id});
+  const navigateToProduct = () => {
+    imageRef.measure((fx, fy, width, height, px, py) => {
+      const sourceMeasure = {
+        ...imageSize,
+        left: px,
+        top: py - 47, // TODO check number
+      };
+
+      props.navigation.navigate("ProductDetails", {
+        id: item.id,
+        sourceMeasure,
+        imageUri: item.image,
+      });
+    });
+  };
+
+  const measureImage = e => {
+    setImageSize({
+      width: e.nativeEvent.layout.width,
+      height: e.nativeEvent.layout.height,
+    });
   };
 
   return (
-    <ProductContainer onPress={onNavigateToProduct}>
+    <ProductContainer
+      onPress={navigateToProduct}
+      ref={r => {
+        imageRef = r;
+      }}
+      activeOpacity={1}>
       <ImageBackground
-        style={{width: "100%", height: 258}}
+        style={imageSize}
         imageStyle={{borderTopLeftRadius: 8, borderTopRightRadius: 8}}
-        source={{uri: item.image}}>
+        source={{uri: item.image}}
+        onLayout={event => {
+          measureImage(event);
+        }}>
         <LinearGradient
           colors={["transparent", colors.darkFontColor]}
           style={{flex: 1, zIndex: 1}}

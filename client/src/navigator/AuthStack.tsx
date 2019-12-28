@@ -11,22 +11,24 @@ const AuthStack = createStackNavigator(
     Welcome: {
       screen: Welcome,
       navigationOptions: () => ({
-        headerShown: false,
+        header: null,
         headerBackTitle: null,
       }),
     },
     Login: {
       screen: Login,
       navigationOptions: () => ({
-        headerTitle: "Login",
+        title: "Login",
         headerBackImage: <NavigationIcon name="close" />,
+        headerBackTitleVisible: false,
       }),
     },
     SignUp: {
       screen: SignUp,
       navigationOptions: () => ({
-        headerTitle: "Create account",
+        title: "Create account",
         headerBackImage: <NavigationIcon name="close" />,
+        headerBackTitleVisible: false,
       }),
     },
   },

@@ -4,6 +4,7 @@ import {getUniqueId} from "react-native-device-info";
 import {
   CURRENT_CART,
   CURRENT_USER,
+  PRODUCT_BY_ID,
   PRODUCTS,
   USER_BY_ID,
   USERS,
@@ -17,6 +18,9 @@ export const useUsersQuery = () =>
   useQuery(USERS, {
     variables: {limit: 10, offset: 0},
   });
+
+export const useProductByIdQuery = id =>
+  useQuery(PRODUCT_BY_ID, {variables: {id}});
 
 export const useProductsQuery = () =>
   useQuery(PRODUCTS, {

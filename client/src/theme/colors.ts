@@ -15,5 +15,6 @@ export default {
   lightFontColor: "#fff",
 
   background: "#F7F7F7",
+  backgroundLight: "#FFF",
   facebook: "#3b5998",
 };

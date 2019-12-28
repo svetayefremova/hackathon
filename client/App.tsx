@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { ApolloProvider } from "react-apollo";
+import "react-native-gesture-handler";
 
 import client from "./src/createClient";
 import Navigator from "./src/navigator";

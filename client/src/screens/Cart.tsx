@@ -2,14 +2,14 @@ import React from "react";
 import {NavigationStackScreenProps} from "react-navigation-stack";
 
 import {Button, Container, Layout, Text} from "../components";
-import {CartItems} from "../containers";
+import {CartList} from "../containers";
 
 const Cart: React.FC<NavigationStackScreenProps> = props => {
   return (
     <Layout>
       <Container padding={20}>
         <Text large>Your Cart</Text>
-        <CartItems />
+        <CartList />
         <Button
           title="To checkout"
           uppercased

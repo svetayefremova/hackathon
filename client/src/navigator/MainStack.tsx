@@ -1,10 +1,10 @@
 import React from "react";
-import {createStackNavigator} from "react-navigation-stack";
+import {createStackNavigator, TransitionPresets} from "react-navigation-stack";
 
 import {NavigationIcon} from "../components";
 import Cart from "../screens/Cart";
 import Dashboard from "../screens/Dashboard";
-import Product from "../screens/Product";
+import ProductDetails from "../screens/ProductDetails";
 import {colors} from "../theme";
 import styles from "./styles";
 
@@ -18,12 +18,11 @@ const MainStack = createStackNavigator(
         headerBackImage: <NavigationIcon name="arrow-left" />,
       }),
     },
-    Product: {
-      screen: Product,
+    ProductDetails: {
+      screen: ProductDetails,
       navigationOptions: () => ({
-        headerStyle: styles.navigationHeader,
-        headerTintColor: colors.primary,
-        headerBackImage: <NavigationIcon name="arrow-left" />,
+        header: null,
+        cardTransparent: true,
       }),
     },
     Cart: {
@@ -37,7 +36,9 @@ const MainStack = createStackNavigator(
   },
   {
     mode: "modal",
-    headerBackTitleVisible: false,
+    defaultNavigationOptions: {
+      headerBackTitleVisible: false,
+    },
   },
 );
 

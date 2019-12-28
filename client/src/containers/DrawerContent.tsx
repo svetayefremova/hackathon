@@ -12,13 +12,17 @@ import {colors, fonts} from "../theme";
 
 const DrawerContent = props => {
   const mutate = useLogoutMutation();
-  const {data} = useCurrentUserQuery();
+  const {data, error} = useCurrentUserQuery();
 
   const logout = async () => {
     props.navigation.navigate("Welcome");
     await mutate();
     createClient.cache.reset();
   };
+
+  if (error) {
+    return <Text align="center">{error.message}</Text>;
+  }
 
   const currentUser: User = data && data.currentUser;
 

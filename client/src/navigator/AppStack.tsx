@@ -23,7 +23,12 @@ const AppStack = createDrawerNavigator(
           }),
         },
       },
-      {headerMode: "none", headerBackTitleVisible: false},
+      {
+        headerMode: "none",
+        defaultNavigationOptions: {
+          headerBackTitleVisible: false,
+        },
+      },
     ),
   },
   {
